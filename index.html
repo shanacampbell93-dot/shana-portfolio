@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shana Campbell — Building the tech behind money</title>
+<meta name="description" content="Coder, data analyst and blockchain learner. Apps and tools I've built, blockchain projects in progress, and plain-English notes on the tech behind money.">
+<meta property="og:title" content="Shana Campbell — Building the tech behind money, in public">
+<meta property="og:description" content="Apps I've built, blockchain projects in progress, and notes on the tech behind money.">
+<meta property="og:image" content="shana.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0E1014;--panel:#14171C;--card:#1C2027;--line:#262B33;--line2:#39404A;--text:#E8ECEF;--muted:#B5BDC6;--dim:#8A939D;--mint:#7CE0B5}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.6}
+a{color:var(--mint)}a:hover{color:#A8EDCF}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:600;margin:0}
+p{margin:0}
+.wrap{max-width:1200px;margin:0 auto;padding-left:32px;padding-right:32px}
+.panel{background:var(--panel)}
+.section{padding-top:112px;padding-bottom:112px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--mint);margin-bottom:12px}
+.h2{font-size:clamp(36px,4.5vw,56px);line-height:1.05;margin-bottom:12px}
+.lead{color:var(--muted);max-width:640px}
+.mono{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--dim)}
+.btn{display:inline-block;text-decoration:none;font-weight:600;padding:14px 28px;border-radius:10px}
+.btn-primary{background:var(--mint);color:var(--bg)}.btn-primary:hover{background:#A8EDCF;color:var(--bg)}
+.btn-ghost{color:var(--text);border:1px solid var(--line2);font-weight:500}.btn-ghost:hover{color:var(--text);border-color:var(--mint)}
+.grid{display:grid;gap:24px}
+.g4{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+header nav a{color:var(--muted);text-decoration:none;padding:10px 0}header nav a:hover{color:var(--text)}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:16px}
+.build{overflow:hidden;display:flex;flex-direction:column}
+.shot{height:200px;background:var(--card);display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:14px}
+.shot img{width:100%;height:100%;object-fit:cover}
+.build .body{padding:28px;display:flex;flex-direction:column;gap:12px;flex-grow:1}
+.build h3{font-size:26px;line-height:1.15}
+.build .body p:not(.mono){color:var(--muted)}
+.build a.more{font-weight:600;padding:8px 0;margin-top:auto}
+.chip{font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid var(--line2);border-radius:6px;padding:6px 12px}
+.pill{border:1px solid var(--line2);border-radius:999px;padding:8px 16px;font-size:15px}
+.note{padding:28px;text-decoration:none;color:var(--text);display:flex;flex-direction:column;gap:10px}
+.note:hover{border-color:var(--mint);color:var(--text)}
+.note .t{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:600;line-height:1.2}
+.note .d{color:var(--muted)}
+.service{border-top:2px solid var(--mint);padding-top:24px;display:flex;flex-direction:column;gap:10px}
+.service h3{font-size:24px}.service p{color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header class="wrap" style="padding-top:28px;padding-bottom:28px;display:flex;flex-wrap:wrap;gap:16px 40px;align-items:center;justify-content:space-between">
+<a href="#top" style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--text);text-decoration:none">Shana Campbell</a>
+<nav style="display:flex;flex-wrap:wrap;gap:8px 28px;font-size:15px">
+<a href="#builds">Builds</a><a href="#now">Now building</a><a href="#notes">Notes</a><a href="#work">Work with me</a>
+</nav>
+</header>
+
+<main>
+<section id="top" class="wrap" style="padding-top:80px;padding-bottom:112px;display:flex;flex-wrap:wrap;gap:56px;align-items:center">
+<div style="flex:999 1 520px;min-width:0;display:flex;flex-direction:column;gap:28px">
+<p class="kicker" style="margin:0">// coder · data · blockchain learner</p>
+<h1 style="max-width:980px;font-size:clamp(44px,6.5vw,88px);line-height:1;letter-spacing:-0.02em">Building the tech behind money, in public.</h1>
+<p style="max-width:680px;font-size:20px;color:var(--muted)">I build apps and data tools. Now I'm learning how blockchains and trading systems work under the hood. No big wallet, no hype: just the fundamentals, shared as I go.</p>
+<div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:8px">
+<a class="btn btn-primary" href="#builds">See what I've built</a>
+<a class="btn btn-ghost" href="#notes">Read my notes</a>
+</div>
+</div>
+<img src="shana.jpg" alt="Shana Campbell" style="flex:1 1 320px;width:100%;max-width:400px;aspect-ratio:4/5;object-fit:cover;object-position:center top;border-radius:20px;border:1px solid var(--line)">
+</section>
+
+<section id="builds" class="panel section">
+<div class="wrap">
+<p class="kicker">01 / builds</p>
+<h2 class="h2">Apps and tools I've built</h2>
+<p class="lead" style="margin-bottom:48px">Real projects, designed and coded by me, from idea to live site.</p>
+<div class="grid g4">
+<article class="card build">
+<div class="shot">[Screenshot]</div>
+<div class="body">
+<h3>Human Cyber Security</h3>
+<p>A short daily check-in for neurodivergent teens and adults. No accounts, no tracking.</p>
+<p class="mono">Web app · Bolt</p>
+<a class="more" href="https://human-system-daily-c-we0i.bolt.host/" target="_blank" rel="noopener">View the build →</a>
+</div>
+</article>
+<article class="card build">
+<div class="shot">[Screenshot]</div>
+<div class="body">
+<h3>Check-in Data App</h3>
+<p>A check-in app that captures data and tracks progress over time.</p>
+<p class="mono">Web app · Bolt</p>
+<a class="more" href="https://skcdcprojecttrack.bolt.host/" target="_blank" rel="noopener">View the build →</a>
+</div>
+</article>
+<article class="card build">
+<div class="shot">[Screenshot]</div>
+<div class="body">
+<h3>SKC Portal</h3>
+<p>A virtual learning studio for SEN children, with calm, simple, accessible design.</p>
+<p class="mono">Web app · Bolt</p>
+<a class="more" href="https://skc-portal-mv2w.bolt.host/" target="_blank" rel="noopener">View the build →</a>
+</div>
+</article>
+<article class="card build">
+<div class="shot">[Screenshot]</div>
+<div class="body">
+<h3>Mave Serenova</h3>
+<p>My first studio site: calm, accessible tech for SEN children, young people and vulnerable adults.</p>
+<p class="mono">Website · Netlify</p>
+<a class="more" href="https://maveserenova.netlify.app/" target="_blank" rel="noopener">View the build →</a>
+</div>
+</article>
+</div>
+</div>
+</section>
+
+<section id="now" class="wrap section">
+<div style="display:flex;flex-wrap:wrap;gap:56px">
+<div style="flex:1 1 360px;display:flex;flex-direction:column;gap:18px">
+<p class="kicker" style="margin:0">02 / now building</p>
+<h2 class="h2" style="margin:0">Blockchain projects</h2>
+<p style="color:var(--muted)">I'm learning to build on blockchains from the ground up, using testnets and free tools, with no real money involved. Every project goes here as I ship it.</p>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px">
+<span class="chip">Solidity</span><span class="chip">Remix IDE</span><span class="chip">Foundry</span><span class="chip">viem</span><span class="chip">Ethereum testnets</span>
+</div>
+</div>
+<div style="flex:1 1 460px;display:flex;flex-direction:column;gap:16px">
+<div style="background:var(--panel);border:1px solid var(--mint);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:space-between;align-items:center">
+<span class="mono">project_01</span>
+<span class="mono" style="color:var(--bg);background:var(--mint);border-radius:6px;padding:3px 10px">in progress</span>
+</div>
+<h3 style="font-size:26px">Testnet wallet reader</h3>
+<p style="color:var(--muted)">A simple web app that connects a wallet and reads its balance on a test network.</p>
+</div>
+<div style="background:var(--panel);border:1px dashed var(--line2);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:8px">
+<span class="mono">project_02</span>
+<h3 style="font-size:26px;color:var(--dim)">Next project</h3>
+<p style="color:var(--dim)">Coming soon.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="notes" class="panel section">
+<div class="wrap">
+<div style="display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:flex-end;margin-bottom:48px">
+<div style="max-width:640px">
+<p class="kicker">03 / notes</p>
+<h2 class="h2">What I know so far</h2>
+<p style="color:var(--muted)">Plain-English notes on trading tech, blockchains and what's new, written as I learn.</p>
+</div>
+<a class="btn btn-ghost" href="https://substack.com/@shanacampbell93" target="_blank" rel="noopener">All notes on Substack →</a>
+</div>
+<div class="grid g3">
+<a class="card note" href="https://substack.com/@shanacampbell93" target="_blank" rel="noopener"><span class="mono">basics</span><span class="t">An exchange isn't a blockchain</span><span class="d">Why the app you trade on and the network your crypto lives on are two different things.</span><span style="font-size:14px;color:var(--mint);margin-top:6px">Read the note →</span></a>
+<a class="card note" href="https://substack.com/@shanacampbell93" target="_blank" rel="noopener"><span class="mono">building</span><span class="t">Testnets: coding with fake money</span><span class="d">How developers build and test on blockchains without spending a penny.</span><span style="font-size:14px;color:var(--mint);margin-top:6px">Read the note →</span></a>
+<a class="card note" href="https://substack.com/@shanacampbell93" target="_blank" rel="noopener"><span class="mono">new</span><span class="t">What's new this week</span><span class="d">The latest in blockchain and trading tech, explained simply.</span><span style="font-size:14px;color:var(--mint);margin-top:6px">Read the note →</span></a>
+</div>
+</div>
+</section>
+
+<section id="work" class="wrap section">
+<p class="kicker">04 / work with me</p>
+<h2 class="h2">How I can help</h2>
+<p class="lead" style="margin-bottom:48px">Open to tech and data roles, freelance builds and collaborations.</p>
+<div class="grid g3">
+<div class="service"><h3>Data &amp; analysis</h3><p>Cleaning, labelling and making sense of data, from my work as an AI data analyst on Labelbox.</p></div>
+<div class="service"><h3>Tech set-up</h3><p>Websites, GitHub and Vercel, automations and workspaces, set up properly and explained clearly.</p></div>
+<div class="service"><h3>Custom tools</h3><p>Dashboards, price-alert bots, portfolio trackers and Web3 front ends. I build the software; you make the decisions.</p></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:56px">
+<span class="pill">Next.js · Vercel · GitHub</span><span class="pill">Linux</span><span class="pill">APIs &amp; automation</span><span class="pill">AI data annotation</span><span class="pill">Data analysis</span><span class="pill">Microsoft 365</span><span class="pill">Technical writing</span><span class="pill">Learning: Solidity</span>
+</div>
+</section>
+
+<section id="contact" class="panel" style="padding:104px 32px">
+<div style="max-width:640px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center">
+<h2 style="font-size:clamp(36px,4.5vw,52px);line-height:1.05">Let's build something</h2>
+<p style="color:var(--muted);margin-bottom:8px">Roles, projects or collaborations. Tell me what you need.</p>
+<a class="btn btn-primary" href="mailto:Scscribe79@gmail.com?subject=Hello%20from%20your%20portfolio">Email me</a>
+<span class="mono" style="font-size:14px;color:var(--muted)">Scscribe79@gmail.com</span>
+</div>
+</section>
+</main>
+
+<footer class="wrap" style="padding-top:40px;padding-bottom:40px;display:flex;flex-direction:column;gap:12px;font-size:14px;color:var(--dim)">
+<div style="display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between">
+<span>© 2026 Shana Campbell</span>
+<span><a href="https://github.com/shanacampbell93-dot" target="_blank" rel="noopener">GitHub</a> · <a href="https://www.instagram.com/miss.skc.bell" target="_blank" rel="noopener">Instagram</a> · <a href="https://substack.com/@shanacampbell93" target="_blank" rel="noopener">Substack</a></span>
+</div>
+<p>Everything here is education, not financial advice. I build software and share what I'm learning; I don't recommend investments.</p>
+</footer>
+
+</body>
+</html>
