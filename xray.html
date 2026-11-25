@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blockchain X-Ray: see what any wallet is doing, in plain English</title>
+<meta name="description" content="Paste any Ethereum wallet, name or transaction and get a plain-English X-Ray. No wallet or crypto needed.">
+<meta property="og:title" content="Blockchain X-Ray">
+<meta property="og:description" content="You don't need crypto to understand crypto. Paste any wallet and see what it's really doing.">
+<meta property="og:image" content="https://shana-portfolio-reqv.vercel.app/img/xray-preview.png">
+<meta property="og:url" content="https://shana-portfolio-reqv.vercel.app/xray">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0E1014;--panel:#14171C;--card:#1C2027;--line:#262B33;--line2:#39404A;--text:#E8ECEF;--muted:#B5BDC6;--dim:#8A939D;--mint:#7CE0B5;--warn:#F2C46D;--bad:#F28B82}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.6}
+a{color:var(--mint)}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px 0}
+header a{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--text);text-decoration:none}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--mint);margin:24px 0 8px}
+h1{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(36px,8vw,60px);line-height:1.02;letter-spacing:-0.02em;margin:0 0 14px}
+h2{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:22px;margin:0 0 10px}
+.lead{color:var(--muted);margin:0 0 26px;max-width:620px}
+form{display:flex;flex-wrap:wrap;gap:10px}
+label.sr{position:absolute;left:-9999px}
+input{flex:1 1 360px;min-width:0;background:var(--panel);border:1px solid var(--line2);border-radius:10px;padding:15px 16px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:15px}
+input:focus{outline:2px solid var(--mint);outline-offset:1px}
+.btn{font:inherit;font-weight:600;border:0;border-radius:10px;padding:15px 24px;cursor:pointer;background:var(--mint);color:var(--bg)}
+.btn:disabled{opacity:.5;cursor:wait}
+.examples{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0}
+.chip{font:inherit;font-size:14px;background:transparent;color:var(--muted);border:1px solid var(--line2);border-radius:999px;padding:8px 14px;cursor:pointer;min-height:40px}
+.chip:hover{color:var(--text);border-color:var(--mint)}
+.small{font-size:14px;color:var(--dim)}
+#status{margin:22px 0 0;min-height:24px;color:var(--muted)}
+#status.err{color:var(--bad)}
+.scan{height:3px;background:linear-gradient(90deg,transparent,var(--mint),transparent);background-size:40% 100%;background-repeat:no-repeat;animation:scan 1.1s linear infinite;border-radius:3px;margin-top:10px}
+@keyframes scan{from{background-position:-40% 0}to{background-position:140% 0}}
+#report{margin:26px 0 10px;display:none}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:16px}
+.headline{font-family:'Space Grotesk',sans-serif;font-size:clamp(24px,5vw,32px);line-height:1.2;font-weight:600;margin:0 0 8px}
+.mono{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--dim);word-break:break-all}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:6px}
+.stat{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:16px}
+.stat .v{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;line-height:1.1}
+.stat .k{font-size:14px;color:var(--dim);margin-top:4px}
+ul.moves{list-style:none;padding:0;margin:0}
+ul.moves li{padding:14px 0;border-top:1px solid var(--line)}
+ul.moves li:first-child{border-top:0;padding-top:4px}
+.when{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--mint);display:block;margin-bottom:2px}
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:12px;border-radius:6px;padding:2px 8px;margin-right:6px;background:var(--card);color:var(--muted)}
+.tag.in{color:var(--bg);background:var(--mint)}
+.tag.out{color:var(--bg);background:var(--warn)}
+.tag.fail{color:var(--bg);background:var(--bad)}
+.alert{border-color:var(--bad);background:#2A1A1A}
+ul.notes{margin:0;padding-left:20px;color:var(--muted)}
+ul.notes li{margin:6px 0}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.ghost{font:inherit;font-size:15px;font-weight:500;background:transparent;color:var(--text);border:1px solid var(--line2);border-radius:10px;padding:11px 18px;cursor:pointer;text-decoration:none}
+details{border-top:1px solid var(--line);padding:16px 0}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;font-weight:600}
+details p{color:var(--muted);margin:10px 0 0}
+footer{border-top:1px solid var(--line);margin-top:40px;padding:24px 0 40px;font-size:14px;color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<a href="/">Shana Campbell</a>
+<a href="/#builds" style="font-family:Inter,sans-serif;font-weight:500;font-size:15px;color:var(--muted)">More builds →</a>
+</header>
+
+<main>
+<p class="kicker">// blockchain x-ray · ethereum</p>
+<h1>You don't need crypto to understand crypto.</h1>
+<p class="lead">Every Ethereum wallet and transaction is public. Paste one in and I'll X-ray it: who it is, what it holds, and what it's been doing, in plain English. No wallet, no sign-up, no crypto needed.</p>
+
+<form id="f" autocomplete="off">
+<label class="sr" for="q">Wallet address, .eth name or transaction hash</label>
+<input id="q" name="q" placeholder="0x… address, name.eth, or transaction hash" spellcheck="false">
+<button class="btn" id="go" type="submit">X-ray it</button>
+</form>
+<div class="examples" aria-label="Examples to try">
+<span class="small" style="align-self:center;margin-right:4px">Try:</span>
+<button class="chip" type="button" data-q="vitalik.eth">Ethereum's co-founder</button>
+<button class="chip" type="button" data-q="0x00000000219ab540356cBB839Cbe05303d7705Fa">The staking vault</button>
+<button class="chip" type="button" data-q="0xdAC17F958D2ee523a2206206994597C13D831ec7">The world's biggest stablecoin</button>
+<button class="chip" type="button" data-q="0x01e2967da92449f87238a8996c2fc1dabc2d11866f09723f50cc023a77b6d422">One transaction</button>
+</div>
+
+<div id="status" role="status" aria-live="polite"></div>
+<section id="report" aria-live="polite"></section>
+
+<section style="margin-top:36px">
+<h2>Blockchain words, decoded</h2>
+<details><summary>What's a wallet address?</summary><p>A public ID, like a bank account number, that anyone can look up. It doesn't show a name unless the owner chose to link one (like name.eth) or explorers have labelled it. Holding the private key is what lets someone spend from it.</p></details>
+<details><summary>What's a smart contract?</summary><p>A program that lives on the blockchain. It holds money and follows its code automatically: stablecoins, exchanges and staking all run on smart contracts. Nobody "logs in" to it; people send it transactions and it reacts.</p></details>
+<details><summary>What are fees (gas)?</summary><p>Every action on Ethereum costs a small fee, paid in ETH to the network for processing it. Busy times cost more. Reading the blockchain, like this X-Ray does, is free.</p></details>
+<details><summary>What's a token?</summary><p>A coin that lives on top of Ethereum, created by a smart contract. Stablecoins like USDT are tokens designed to stay worth about one US dollar.</p></details>
+<details><summary>Where does this data come from?</summary><p>Straight from the public Ethereum blockchain, via the free Blockscout explorer. Pound values use a live ETH price from Coinbase and are approximate. Nothing you search is stored by this page.</p></details>
+</section>
+</main>
+
+<footer>
+Built by <a href="/">Shana Campbell</a> · <a href="https://maveserenova.substack.com/p/an-exchange-isnt-a-blockchain-and">Read: An exchange isn't a blockchain</a><br>
+Education, not financial advice. Labels come from public explorers and can be wrong.
+</footer>
+</div>
+
+<script>
+const API = 'https://eth.blockscout.com/api/v2';
+const EXPLORER = 'https://eth.blockscout.com';
+const $ = id => document.getElementById(id);
+let gbp = null; // price of 1 ETH in GBP
+
+async function j(url) {
+  const r = await fetch(url, {headers: {accept: 'application/json'}});
+  if (!r.ok) { const e = new Error('HTTP ' + r.status); e.status = r.status; throw e; }
+  return r.json();
+}
+
+async function loadPrice(usdFallback) {
+  if (gbp) return gbp;
+  try { const d = await j('https://api.coinbase.com/v2/exchange-rates?currency=ETH'); gbp = Number(d.data.rates.GBP); } catch (e) {}
+  if (!gbp) { try { const d = await j('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=gbp'); gbp = Number(d.ethereum.gbp); } catch (e) {} }
+  if (!gbp && usdFallback) gbp = Number(usdFallback) * 0.79; // rough USD to GBP if both price feeds fail
+  return gbp;
+}
+
+// --- formatting helpers ---
+function units(raw, decimals) {
+  if (raw == null) return 0;
+  try {
+    const b = BigInt(String(raw).split('.')[0]), d = BigInt(Number(decimals) || 0), base = 10n ** d;
+    return Number(b / base) + Number(b % base) / Number(base);
+  } catch (e) { return Number(raw) / Math.pow(10, Number(decimals) || 0); }
+}
+const eth = w => units(w, 18);
+function num(n, max) {
+  if (n === 0) return '0';
+  if (Math.abs(n) < 0.0001) return '<0.0001';
+  return n.toLocaleString('en-GB', {maximumFractionDigits: max == null ? (Math.abs(n) >= 100 ? 0 : 4) : max});
+}
+function pounds(ethAmount) {
+  if (!gbp) return '';
+  const v = ethAmount * gbp;
+  if (v > 0 && v < 0.01) return 'under 1p';
+  return '£' + v.toLocaleString('en-GB', {maximumFractionDigits: v >= 100 ? 0 : 2, minimumFractionDigits: v >= 100 ? 0 : 2});
+}
+function ethWithPounds(e) { const p = pounds(e); return num(e) + ' ETH' + (p ? ' (about ' + p + ')' : ''); }
+function ago(iso) {
+  if (!iso) return '';
+  const s = (Date.now() - Date.parse(iso)) / 1000;
+  if (s < 90) return 'just now';
+  const units = [[60, 'minute'], [3600, 'hour'], [86400, 'day'], [2592000, 'month'], [31536000, 'year']];
+  let label = '';
+  for (let i = units.length - 1; i >= 0; i--) { const [sec, u] = units.at(i); if (s >= sec) { const n = Math.floor(s / sec); label = n + ' ' + u + (n > 1 ? 's' : '') + ' ago'; break; } }
+  return label;
+}
+function dateTxt(iso) { return iso ? new Date(iso).toLocaleString('en-GB', {day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'}) : 'unknown time'; }
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+const short = h => h ? h.slice(0, 6) + '…' + h.slice(-4) : 'unknown';
+function labelOf(a) {
+  if (!a) return '';
+  const tag = a.metadata && a.metadata.tags ? a.metadata.tags.find(t => t.tagType === 'name') : null;
+  const pub = a.public_tags && a.public_tags.length ? (a.public_tags[0].display_name || a.public_tags[0].label) : '';
+  return (tag && tag.name) || a.name || a.ens_domain_name || pub || '';
+}
+function who(a) {
+  if (!a) return 'an unknown address';
+  const l = labelOf(a);
+  return l ? '<b>' + esc(l) + '</b>' : '<span class="mono" style="font-size:14px">' + esc(short(a.hash)) + '</span>';
+}
+function kindOf(a) {
+  if (!a.is_contract) return {k: 'wallet', text: 'an ordinary wallet: a person or business holding their own keys'};
+  if (a.proxy_type === 'eip7702') return {k: 'smart-wallet', text: 'a personal wallet upgraded with smart-account features'};
+  return {k: 'contract', text: 'a smart contract: a program living on the blockchain, not a person'};
+}
+
+function status(msg, err, busy) {
+  $('status').className = err ? 'err' : '';
+  $('status').innerHTML = esc(msg) + (busy ? '<div class="scan" aria-hidden="true"></div>' : '');
+}
+
+// --- main ---
+async function xray(raw) {
+  let q = (raw || '').trim();
+  if (!q) { status('Paste a wallet address, a .eth name or a transaction hash.', true); return; }
+  $('go').disabled = true; $('report').style.display = 'none';
+  status('Scanning the blockchain…', false, true);
+  try {
+    if (/^0x[0-9a-fA-F]{64}$/.test(q)) await xrayTx(q);
+    else {
+      if (/\.eth$/i.test(q)) {
+        const s = await j(API + '/search?q=' + encodeURIComponent(q));
+        const hit = (s.items || []).find(i => i.address_hash);
+        if (!hit) throw Object.assign(new Error('name'), {friendly: 'I couldn\'t find a wallet with the name ' + q + '.'});
+        q = hit.address_hash;
+      }
+      if (!/^0x[0-9a-fA-F]{40}$/.test(q)) throw Object.assign(new Error('format'), {friendly: 'That doesn\'t look like an Ethereum address (0x followed by 40 characters), a .eth name or a transaction hash (0x followed by 64).'});
+      await xrayAddress(q);
+    }
+    status('');
+    const url = new URL(location.href); url.searchParams.set('q', raw.trim()); history.replaceState(null, '', url);
+    $('report').style.display = 'block';
+    $('report').scrollIntoView({behavior: 'smooth', block: 'start'});
+  } catch (e) {
+    status(e.friendly || (e.status === 404 ? 'Nothing found. Check you copied the whole address or hash.' : 'The blockchain explorer didn\'t answer. Wait a minute and try again.'), true);
+  } finally { $('go').disabled = false; }
+}
+
+async function xrayAddress(addr) {
+  const [a, c, txs] = await Promise.all([
+    j(API + '/addresses/' + addr),
+    j(API + '/addresses/' + addr + '/counters').catch(() => null),
+    j(API + '/addresses/' + addr + '/transactions').catch(() => ({items: []}))
+  ]);
+  await loadPrice(a.exchange_rate);
+  const bal = eth(a.coin_balance || '0');
+  const kind = kindOf(a);
+  const name = labelOf(a);
+  const items = (txs.items || []).slice(0, 8);
+  const txCount = c ? Number(c.transactions_count) : null;
+  const tokCount = c ? Number(c.token_transfers_count) : null;
+
+  let h = '';
+  if (a.is_scam) h += '<div class="card alert"><h2>⚠ Flagged as a scam</h2><p style="margin:0;color:var(--muted)">Public explorers have flagged this address as linked to scams. Never send anything to it.</p></div>';
+
+  h += '<div class="card"><p class="kicker" style="margin-top:0">// who is this?</p>';
+  h += '<p class="headline">' + (name ? esc(name) + ' is ' : 'This is ') + esc(kind.text) + '.</p>';
+  if (a.ens_domain_name && a.ens_domain_name !== name) h += '<p style="margin:0 0 6px;color:var(--muted)">It also goes by the name <b>' + esc(a.ens_domain_name) + '</b>.</p>';
+  h += '<p class="mono" style="margin:0">' + esc(a.hash) + '</p></div>';
+
+  h += '<div class="card"><p class="kicker" style="margin-top:0">// the numbers</p><div class="stats">';
+  h += '<div class="stat"><div class="v">' + num(bal) + ' ETH</div><div class="k">' + (pounds(bal) ? 'about ' + pounds(bal) + ' right now' : 'ETH balance') + '</div></div>';
+  if (txCount != null) h += '<div class="stat"><div class="v">' + txCount.toLocaleString('en-GB') + '</div><div class="k">transactions</div></div>';
+  if (tokCount != null) h += '<div class="stat"><div class="v">' + tokCount.toLocaleString('en-GB') + '</div><div class="k">token transfers</div></div>';
+  if (items.length) h += '<div class="stat"><div class="v">' + esc(ago(items[0].timestamp)) + '</div><div class="k">last active</div></div>';
+  h += '</div></div>';
+
+  h += '<div class="card"><p class="kicker" style="margin-top:0">// latest moves</p>';
+  if (!items.length) h += '<p style="margin:0;color:var(--muted)">No transactions found for this address.</p>';
+  else {
+    h += '<ul class="moves">';
+    items.forEach(t => {
+      const fromMe = t.from && t.from.hash.toLowerCase() === addr.toLowerCase();
+      const v = eth(t.value), fee = eth(t.fee && t.fee.value);
+      const failed = t.status && t.status !== 'ok';
+      const method = t.decoded_input && t.decoded_input.method_call ? t.decoded_input.method_call.split('(')[0] : (t.method && !/^0x/.test(t.method) ? t.method : '');
+      let line;
+      if (v > 0) line = fromMe ? 'Sent <b>' + ethWithPounds(v) + '</b> to ' + who(t.to) : 'Received <b>' + ethWithPounds(v) + '</b> from ' + who(t.from);
+      else if (fromMe) line = 'Used ' + who(t.to) + (method ? ' to <b>' + esc(method) + '</b>' : '') + ', with no ETH moved';
+      else line = who(t.from) + ' interacted with this address' + (method ? ' (<b>' + esc(method) + '</b>)' : '');
+      const tag = failed ? '<span class="tag fail">failed</span>' : (v > 0 ? (fromMe ? '<span class="tag out">out</span>' : '<span class="tag in">in</span>') : '<span class="tag">action</span>');
+      h += '<li><span class="when">' + esc(ago(t.timestamp)) + '</span>' + tag + line + '.' + (fee && fromMe ? ' <span class="small">Fee: ' + (pounds(fee) || num(fee) + ' ETH') + '.</span>' : '') + ' <a class="small" href="' + EXPLORER + '/tx/' + esc(t.hash) + '" target="_blank" rel="noopener">details</a></li>';
+    });
+    h += '</ul>';
+  }
+  h += '</div>';
+
+  const notes = [];
+  if (kind.k === 'contract') notes.push('Nobody owns a smart contract the way a person owns a wallet. It holds and moves money by following its code.');
+  if (kind.k === 'smart-wallet') notes.push('This wallet uses a 2025 Ethereum upgrade that lets ordinary wallets act like apps: batching payments, paying fees in other tokens, and adding extra security.');
+  if (bal >= 10000) notes.push('With over 10,000 ETH, this is a giant: moves from addresses like this can make headlines.');
+  else if (bal >= 1000) notes.push('Holding over 1,000 ETH makes this a "whale" in crypto slang.');
+  else if (bal > 0 && bal < 0.01) notes.push('The ETH balance is tiny, so most of its value (if any) may sit in other tokens.');
+  if (txCount != null && txCount > 10000) notes.push('With ' + txCount.toLocaleString('en-GB') + ' transactions, this is one of the busier addresses on Ethereum.');
+  if (name) notes.push('The name comes from public labels or a linked .eth name. Labels help, but they can be wrong, so treat them as clues, not proof.');
+  else notes.push('No public name is linked. That\'s normal: most wallets are anonymous, but every move they make is still visible.');
+  h += '<div class="card"><p class="kicker" style="margin-top:0">// what this tells us</p><ul class="notes">' + notes.map(n => '<li>' + n + '</li>').join('') + '</ul></div>';
+
+  h += actions(EXPLORER + '/address/' + addr);
+  $('report').innerHTML = h;
+}
+
+async function xrayTx(hash) {
+  const t = await j(API + '/transactions/' + hash);
+  await loadPrice(t.exchange_rate);
+  const v = eth(t.value), fee = eth(t.fee && t.fee.value);
+  const failed = t.status && t.status !== 'ok';
+  const method = t.decoded_input && t.decoded_input.method_call ? t.decoded_input.method_call.split('(')[0] : (t.method && !/^0x/.test(t.method) ? t.method : '');
+  let story = 'On ' + esc(dateTxt(t.timestamp)) + ', ' + who(t.from) + ' ';
+  if (t.created_contract) story += 'created a brand-new smart contract' + (labelOf(t.created_contract) ? ', ' + esc(labelOf(t.created_contract)) : '');
+  else if (v > 0) story += 'sent <b>' + ethWithPounds(v) + '</b> to ' + who(t.to);
+  else story += 'used ' + who(t.to) + (method ? ' to <b>' + esc(method) + '</b>' : '');
+  story += '.';
+
+  let h = '';
+  h += '<div class="card"><p class="kicker" style="margin-top:0">// what happened</p><p class="headline" style="font-size:clamp(20px,4.4vw,26px)">' + story + '</p>';
+  h += '<p style="margin:0;color:var(--muted)">' + (failed ? '<span class="tag fail">failed</span> It didn\'t go through' + (t.revert_reason ? ' (' + esc(typeof t.revert_reason === 'string' ? t.revert_reason : 'rejected by the contract') + ')' : '') + ', but the fee was still paid.' : '<span class="tag in">success</span> It went through and is permanently recorded.') + '</p></div>';
+
+  const tts = (t.token_transfers || []).slice(0, 6);
+  if (tts.length) {
+    h += '<div class="card"><p class="kicker" style="margin-top:0">// tokens that moved</p><ul class="moves">';
+    tts.forEach(tt => {
+      const tok = tt.token || {};
+      const tot = tt.total || {};
+      let amt;
+      if (tot.value != null) amt = num(units(tot.value, tot.decimals != null ? tot.decimals : tok.decimals), 2) + ' ' + esc(tok.symbol || 'tokens');
+      else if (tot.token_id != null) amt = 'collectible #' + esc(String(tot.token_id).slice(0, 12)) + ' from ' + esc(tok.name || 'a collection');
+      else amt = esc(tok.symbol || 'a token');
+      h += '<li><b>' + amt + '</b> went from ' + who(tt.from) + ' to ' + who(tt.to) + '.</li>';
+    });
+    if ((t.token_transfers || []).length > 6 || t.token_transfers_overflow) h += '<li class="small">…and more. See the full list in the details.</li>';
+    h += '</ul></div>';
+  }
+
+  h += '<div class="card"><p class="kicker" style="margin-top:0">// the numbers</p><div class="stats">';
+  h += '<div class="stat"><div class="v">' + num(v) + ' ETH</div><div class="k">' + (pounds(v) ? 'about ' + pounds(v) + ' today' : 'ETH sent') + '</div></div>';
+  h += '<div class="stat"><div class="v">' + (pounds(fee) || num(fee) + ' ETH') + '</div><div class="k">fee paid to the network</div></div>';
+  if (t.block_number) h += '<div class="stat"><div class="v">#' + Number(t.block_number).toLocaleString('en-GB') + '</div><div class="k">block it was written into</div></div>';
+  if (t.confirmations) h += '<div class="stat"><div class="v">' + Number(t.confirmations).toLocaleString('en-GB') + '</div><div class="k">blocks added on top since</div></div>';
+  h += '</div></div>';
+
+  const notes = ['Once a transaction is in a block, it can\'t be changed or deleted. That\'s what makes blockchains useful as public records.'];
+  if (v === 0 && !t.created_contract) notes.push('No ETH moved directly. This was an instruction to a smart contract, which can still move tokens or change who owns what.');
+  if (fee > 0) notes.push('The fee went to the network for processing, not to the person receiving.');
+  notes.push('Pound values use today\'s ETH price, so they may differ from what it was worth at the time.');
+  h += '<div class="card"><p class="kicker" style="margin-top:0">// what this tells us</p><ul class="notes">' + notes.map(n => '<li>' + n + '</li>').join('') + '</ul></div>';
+
+  h += actions(EXPLORER + '/tx/' + hash);
+  $('report').innerHTML = h;
+}
+
+function actions(link) {
+  return '<div class="row"><button class="ghost" type="button" id="copy">Copy link to this X-Ray</button><a class="ghost" href="' + link + '" target="_blank" rel="noopener">Check it yourself on the explorer</a></div>';
+}
+
+document.addEventListener('click', e => {
+  if (e.target && e.target.id === 'copy') {
+    navigator.clipboard.writeText(location.href).then(() => { e.target.textContent = 'Link copied'; }, () => { e.target.textContent = location.href; });
+  }
+  const chip = e.target.closest && e.target.closest('.chip');
+  if (chip) { $('q').value = chip.dataset.q; xray(chip.dataset.q); }
+});
+$('f').addEventListener('submit', e => { e.preventDefault(); xray($('q').value); });
+
+const start = new URL(location.href).searchParams.get('q');
+if (start) { $('q').value = start; xray(start); }
+</script>
+</body>
+</html>
