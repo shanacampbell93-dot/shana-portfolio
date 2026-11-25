@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Receipt: what do your apps know about you?</title>
+<meta name="description" content="Tap the apps you use and get a receipt of the data they may collect about you. Free. Nothing you tap is saved or sent.">
+<meta property="og:title" content="Data Receipt: what do your apps know about you?">
+<meta property="og:description" content="Tap the apps you use. Get your receipt. You paid with your data.">
+<meta property="og:image" content="https://shana-portfolio-reqv.vercel.app/img/receipt-preview.png">
+<meta property="og:url" content="https://shana-portfolio-reqv.vercel.app/receipt">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0E1014;--panel:#14171C;--line:#262B33;--line2:#39404A;--text:#E8ECEF;--muted:#B5BDC6;--dim:#8A939D;--mint:#7CE0B5;--paper:#FAFAF7;--ink:#1A1A1A}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.55}
+a{color:var(--mint)}
+.wrap{max-width:640px;margin:0 auto;padding:0 20px}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px 0}
+header a{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--text);text-decoration:none}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--mint);margin:24px 0 8px}
+h1{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(36px,9vw,56px);line-height:1.02;letter-spacing:-0.02em;margin:0 0 14px}
+.lead{color:var(--muted);margin:0 0 28px}
+.apps{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.app{display:flex;align-items:center;gap:10px;min-height:52px;padding:10px 14px;border-radius:12px;border:1px solid var(--line2);background:var(--panel);color:var(--text);font:inherit;font-size:15px;font-weight:500;text-align:left;cursor:pointer}
+.app .tick{width:20px;height:20px;flex-shrink:0;border-radius:6px;border:1.5px solid var(--dim);display:flex;align-items:center;justify-content:center}
+.app[aria-pressed="true"]{border-color:var(--mint);background:#1A2A24}
+.app[aria-pressed="true"] .tick{background:var(--mint);border-color:var(--mint)}
+.app[aria-pressed="true"] .tick::after{content:"";width:5px;height:10px;border:solid var(--bg);border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:22px 0}
+.btn{font:inherit;font-weight:600;border:0;border-radius:10px;padding:15px 26px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn-primary{background:var(--mint);color:var(--bg)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--line2)}
+.small{font-size:14px;color:var(--dim)}
+#result{display:none;margin:8px 0 40px}
+.paper{background:var(--paper);color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:14px;line-height:1.6;padding:28px 22px 30px;position:relative;
+  -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/14px 100%;mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/14px 100%;padding-bottom:40px}
+.paper .c{text-align:center}
+.paper h2{font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.12em;margin:0;text-align:center}
+.rule{border-top:1.5px dashed #9A9A92;margin:12px 0}
+.li{display:flex;justify-content:space-between;gap:12px}
+.li span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.big{font-size:18px;font-weight:700}
+.barcode{height:46px;margin:14px auto 4px;max-width:260px;background:repeating-linear-gradient(90deg,#1A1A1A 0 2px,transparent 2px 4px,#1A1A1A 4px 7px,transparent 7px 9px,#1A1A1A 9px 10px,transparent 10px 13px)}
+details{margin-top:28px;border-top:1px solid var(--line);padding-top:18px}
+summary{cursor:pointer;font-weight:600}
+details p,details li{color:var(--muted);font-size:15px}
+footer{border-top:1px solid var(--line);margin-top:40px;padding:24px 0 40px;font-size:14px;color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<a href="/">Shana Campbell</a>
+<a href="/#builds" style="font-family:Inter,sans-serif;font-weight:500;font-size:15px;color:var(--muted)">More builds →</a>
+</header>
+
+<main>
+<section id="picker">
+<p class="kicker">// data receipt</p>
+<h1>What do your apps know about you?</h1>
+<p class="lead">Tap the apps on your phone. I'll print your receipt. Nothing you tap is saved or sent anywhere: it all happens on your device.</p>
+<div class="apps" id="apps"></div>
+<div class="row">
+<button class="btn btn-primary" id="print" disabled>Print my receipt</button>
+<span class="small" id="count">Pick at least one app</span>
+</div>
+</section>
+
+<section id="result" aria-live="polite">
+<div class="paper" id="paper"></div>
+<div class="row">
+<button class="btn btn-primary" id="save">Save for my story</button>
+<button class="btn btn-ghost" id="again">Start again</button>
+</div>
+<p class="small">Tag me or send it to someone who needs to see theirs.</p>
+</section>
+
+<details>
+<summary>Where does this come from?</summary>
+<p>Every app in Apple's App Store has to publish a privacy label listing the types of data it may collect and link to your identity. This receipt uses those labels, as shown on the UK App Store in November 2026 (Snapchat from the US store).</p>
+<ul>
+<li><strong>"May collect"</strong> means the app says it can collect this. What it actually collects depends on how you use it and your settings.</li>
+<li><strong>"Tracking"</strong> means the app says it may use some of your data to follow you across other companies' apps and websites, usually for ads.</li>
+<li>You can check any app yourself: open it in the App Store and scroll to "App Privacy".</li>
+</ul>
+</details>
+</main>
+
+<footer>
+Built by <a href="/">Shana Campbell</a> · <a href="https://maveserenova.substack.com/p/who-owns-your-body-data">Read: Who owns your body data?</a><br>
+Education, not advice. Labels change: always check the App Store for the latest.
+</footer>
+</div>
+
+<canvas id="cv" width="1080" height="1920" hidden></canvas>
+
+<script>
+// Plain-English names for Apple's privacy label categories
+const CAT = {
+  loc:  'Where you are',
+  ci:   'Name, email & phone',
+  con:  'Your contacts list',
+  uc:   'Photos, videos & posts',
+  sh:   'What you search for',
+  bh:   'What you browse elsewhere',
+  id:   'Device & account IDs',
+  ud:   'How you use the app',
+  dia:  'Crash & performance data',
+  pur:  'What you buy',
+  fin:  'Payment info',
+  hf:   'Health & fitness',
+  si:   'Sensitive info',
+  oth:  'Other data'
+};
+// "linked" = Data Linked to You; "track" = Data Used to Track You (App Store privacy labels)
+const APPS = [
+  {n:'Instagram', linked:['hf','pur','fin','loc','ci','con','uc','sh','bh','id','ud','si','dia','oth'], track:['ci','id','oth']},
+  {n:'Facebook',  linked:['hf','pur','fin','loc','ci','con','uc','sh','bh','id','ud','si','dia','oth'], track:['ci','id','oth']},
+  {n:'TikTok',    linked:['pur','fin','loc','ci','con','uc','sh','bh','id','ud','dia'], track:['ci','id']},
+  {n:'Snapchat',  linked:['pur','loc','ci','con','uc','sh','id','ud','dia'], track:['ci','id']},
+  {n:'WhatsApp',  linked:['pur','fin','loc','ci','con','uc','id','ud','dia'], track:[]},
+  {n:'YouTube',   linked:['pur','fin','loc','ci','con','uc','sh','bh','id','ud','dia','oth'], track:['ci','id']},
+  {n:'X',         linked:['pur','loc','ci','con','uc','sh','bh','id','ud','dia'], track:['pur','loc','ci','uc','bh','id','ud']},
+  {n:'Google Maps',linked:['pur','fin','loc','ci','con','uc','sh','bh','id','ud','si','dia','oth'], track:[]},
+  {n:'Uber',      linked:['pur','fin','loc','ci','uc','sh','id','ud','si','dia','oth'], track:['pur','ci','sh','id','ud','oth']},
+  {n:'Spotify',   linked:['hf','pur','fin','loc','ci','con','uc','sh','id','ud','dia','oth'], track:['ci','id','ud']},
+  {n:'Netflix',   linked:['loc','ci','uc','sh','id','ud','dia','oth'], track:[]},
+  {n:'Deliveroo', linked:['pur','fin','loc','ci','uc','sh','id','ud','dia','oth'], track:['pur','loc','ci','uc','id','ud','dia']},
+  {n:'Temu',      linked:['pur','fin','loc','ci','uc','sh','id','ud','dia'], track:[]}
+];
+
+const picked = new Set();
+const appsEl = document.getElementById('apps');
+const printBtn = document.getElementById('print');
+const countEl = document.getElementById('count');
+
+APPS.forEach((a, i) => {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'app'; b.setAttribute('aria-pressed', 'false');
+  b.innerHTML = '<span class="tick" aria-hidden="true"></span><span></span>';
+  b.lastChild.textContent = a.n;
+  b.addEventListener('click', () => {
+    picked.has(i) ? picked.delete(i) : picked.add(i);
+    b.setAttribute('aria-pressed', picked.has(i) ? 'true' : 'false');
+    printBtn.disabled = picked.size === 0;
+    countEl.textContent = picked.size ? picked.size + ' app' + (picked.size > 1 ? 's' : '') + ' picked' : 'Pick at least one app';
+  });
+  appsEl.appendChild(b);
+});
+
+function build() {
+  const chosen = [...picked].sort((x, y) => x - y).map(i => APPS[i]);
+  const tally = {};
+  chosen.forEach(a => a.linked.forEach(c => tally[c] = (tally[c] || 0) + 1));
+  const known = Object.keys(tally).sort((x, y) => tally[y] - tally[x] || CAT[x].localeCompare(CAT[y]));
+  const trackers = chosen.filter(a => a.track.length).length;
+  const now = new Date();
+  const stamp = now.toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'}) + '  ' + now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
+  return {chosen, tally, known, trackers, stamp, ref: String(Math.floor(100000 + Math.random() * 900000))};
+}
+
+function esc(s){ return s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+let last = null;
+function render() {
+  const r = last = build();
+  let h = '<h2>DATA RECEIPT</h2><p class="c" style="margin:6px 0 0">THE ATTENTION STORE<br>' + r.stamp + '<br>ORDER #' + r.ref + '</p>';
+  h += '<div class="rule"></div><div class="li"><b>APP</b><b>DATA TYPES</b></div>';
+  r.chosen.forEach(a => h += '<div class="li"><span>' + esc(a.n.toUpperCase()) + (a.track.length ? ' *' : '') + '</span><span>' + a.linked.length + '</span></div>');
+  h += '<div class="rule"></div><p style="margin:0 0 4px"><b>WHAT THEY MAY KNOW</b></p>';
+  r.known.forEach(c => h += '<div class="li"><span>' + CAT[c] + '</span><span>x' + r.tally[c] + '</span></div>');
+  h += '<div class="rule"></div>';
+  h += '<div class="li big"><span>TOTAL</span><span>' + r.known.length + ' TYPES</span></div>';
+  h += '<div class="li"><span>Apps that may track you *</span><span>' + r.trackers + '/' + r.chosen.length + '</span></div>';
+  h += '<div class="li"><span>Amount paid</span><span>£0.00</span></div>';
+  h += '<div class="li"><b>Paid with</b><b>YOUR DATA</b></div>';
+  h += '<div class="rule"></div><p class="c" style="margin:0">* may use your data to follow you<br>across other apps &amp; websites</p>';
+  h += '<div class="barcode" aria-hidden="true"></div><p class="c" style="margin:0">THANK YOU FOR SCROLLING<br>shana-portfolio-reqv.vercel.app/receipt</p>';
+  document.getElementById('paper').innerHTML = h;
+  document.getElementById('picker').style.display = 'none';
+  const res = document.getElementById('result');
+  res.style.display = 'block';
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+printBtn.addEventListener('click', render);
+document.getElementById('again').addEventListener('click', () => {
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('picker').style.display = 'block';
+});
+
+// Story-sized image (1080 x 1920) drawn on a canvas
+async function drawStory(r) {
+  try { await document.fonts.ready; } catch (e) {}
+  const cv = document.getElementById('cv'), x = cv.getContext('2d');
+  const W = 1080, H = 1920, M = 90, PW = W - M * 2;
+  x.fillStyle = '#0E1014'; x.fillRect(0, 0, W, H);
+  x.fillStyle = '#7CE0B5'; x.font = '500 34px "JetBrains Mono", monospace'; x.textAlign = 'center';
+  x.fillText('// what do my apps know about me?', W / 2, 110);
+
+  const units = 1.4 + 1.5 + 2 + 1 + r.chosen.length + 1 + r.known.length + 4 + 1 + 5 * 0.4 + 2.6;
+  const lh = Math.min(52, Math.floor((H - 380) / units));
+  const fs = Math.round(lh * 0.66);
+  const paperH = Math.round(units * lh);
+  const top = Math.max(170, Math.round((H - 120 - paperH) / 2) + 40);
+  x.fillStyle = '#FAFAF7';
+  x.beginPath(); x.moveTo(M, top); x.lineTo(M + PW, top); x.lineTo(M + PW, top + paperH);
+  const teeth = Math.round(PW / 24), tw = PW / teeth;
+  for (let k = 0; k < teeth; k++) { const px = M + PW - k * tw; x.lineTo(px - tw / 2, top + paperH - 14); x.lineTo(px - tw, top + paperH); }
+  x.closePath(); x.fill();
+
+  let y = top + lh * 1.4; const L = M + 50, R = M + PW - 50;
+  const line = (a, b, bold) => { x.font = (bold ? '700 ' : '400 ') + fs + 'px "JetBrains Mono", monospace'; x.fillStyle = '#1A1A1A';
+    x.textAlign = 'left'; x.fillText(a, L, y); if (b !== undefined) { x.textAlign = 'right'; x.fillText(b, R, y); } y += lh; };
+  const center = (t, size, bold) => { x.font = (bold ? '700 ' : '400 ') + (size || fs) + 'px "JetBrains Mono", monospace'; x.fillStyle = '#1A1A1A'; x.textAlign = 'center'; x.fillText(t, W / 2, y); y += lh; };
+  const rule = () => { x.strokeStyle = '#9A9A92'; x.setLineDash([10, 8]); x.lineWidth = 2; x.beginPath(); x.moveTo(L, y - lh * 0.45); x.lineTo(R, y - lh * 0.45); x.stroke(); x.setLineDash([]); y += lh * 0.4; };
+
+  center('DATA RECEIPT', Math.round(fs * 1.5), true);
+  center('THE ATTENTION STORE'); center(r.stamp + '  #' + r.ref);
+  rule(); line('APP', 'DATA TYPES', true);
+  r.chosen.forEach(a => line(a.n.toUpperCase() + (a.track.length ? ' *' : ''), String(a.linked.length)));
+  rule(); line('WHAT THEY MAY KNOW', undefined, true);
+  r.known.forEach(c => line(CAT[c], 'x' + r.tally[c]));
+  rule();
+  line('TOTAL', r.known.length + ' TYPES', true);
+  line('Apps that may track you *', r.trackers + '/' + r.chosen.length);
+  line('Amount paid', '£0.00');
+  line('Paid with', 'YOUR DATA', true);
+  rule(); center('* may follow you across other apps');
+  x.fillStyle = '#1A1A1A'; let bx = W / 2 - 170; const bars = [2,1,3,1,1,2,4,1,2,1,1,3,2,1,3,1,2,2,1,4,1,1,2,3,1,2,1,1,3,2,1,2];
+  y -= lh * 0.3; while (bx < W / 2 + 170) { for (const w of bars) { if (bx >= W / 2 + 170) break; x.fillRect(bx, y, w * 3, lh * 1.4); bx += w * 3 + 4; } }
+
+  x.fillStyle = '#E8ECEF'; x.textAlign = 'center'; x.font = '600 40px "Space Grotesk", sans-serif';
+  x.fillText('Get yours: shana-portfolio-reqv.vercel.app/receipt', W / 2, H - 70);
+  return new Promise(res => cv.toBlob(res, 'image/png'));
+}
+
+document.getElementById('save').addEventListener('click', async () => {
+  if (!last) return;
+  const blob = await drawStory(last);
+  const file = new File([blob], 'my-data-receipt.png', {type: 'image/png'});
+  try {
+    if (navigator.canShare && navigator.canShare({files: [file]})) {
+      await navigator.share({files: [file], title: 'My data receipt'});
+      return;
+    }
+  } catch (e) { if (e && e.name === 'AbortError') return; }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'my-data-receipt.png';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+});
+</script>
+</body>
+</html>
