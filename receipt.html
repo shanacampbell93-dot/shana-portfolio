@@ -81,7 +81,7 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding:24px 0 40px;font
 
 <details>
 <summary>Where does this come from?</summary>
-<p>Every app in Apple's App Store has to publish a privacy label listing the types of data it may collect and link to your identity. This receipt uses those labels, as shown on the UK App Store in November 2026 (Snapchat from the US store).</p>
+<p>Every app in Apple's App Store has to publish a privacy label listing the types of data it may collect and link to your identity. This receipt uses those labels, as shown on the UK App Store in November 2026 (Snapchat and Amazon from the US store).</p>
 <ul>
 <li><strong>"May collect"</strong> means the app says it can collect this. What it actually collects depends on how you use it and your settings.</li>
 <li><strong>"Tracking"</strong> means the app says it may use some of your data to follow you across other companies' apps and websites, usually for ads.</li>
@@ -130,6 +130,7 @@ const APPS = [
   {n:'Spotify',   linked:['hf','pur','fin','loc','ci','con','uc','sh','id','ud','dia','oth'], track:['ci','id','ud']},
   {n:'Netflix',   linked:['loc','ci','uc','sh','id','ud','dia','oth'], track:[]},
   {n:'Deliveroo', linked:['pur','fin','loc','ci','uc','sh','id','ud','dia','oth'], track:['pur','loc','ci','uc','id','ud','dia']},
+  {n:'Amazon',    linked:['hf','pur','fin','loc','ci','uc','sh','id','ud','si','dia','oth'], track:[]},
   {n:'Temu',      linked:['pur','fin','loc','ci','uc','sh','id','ud','dia'], track:[]}
 ];
 
