@@ -33,6 +33,10 @@ input:focus{outline:2px solid var(--mint);outline-offset:1px}
 .examples{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0}
 .chip{font:inherit;font-size:14px;background:transparent;color:var(--muted);border:1px solid var(--line2);border-radius:999px;padding:8px 14px;cursor:pointer;min-height:40px}
 .chip:hover{color:var(--text);border-color:var(--mint)}
+.net{display:inline-flex;border:1px solid var(--line2);border-radius:10px;padding:3px;margin:0 0 12px;gap:3px}
+.net button{font:inherit;font-size:14px;font-weight:500;background:transparent;color:var(--muted);border:0;border-radius:8px;padding:9px 14px;cursor:pointer;min-height:40px}
+.net button[aria-pressed="true"]{background:var(--card);color:var(--text);box-shadow:inset 0 0 0 1px var(--mint)}
+.testnote{display:none;font-size:14px;color:var(--warn);margin:-4px 0 12px}
 .small{font-size:14px;color:var(--dim)}
 #status{margin:22px 0 0;min-height:24px;color:var(--muted)}
 #status.err{color:var(--bad)}
@@ -78,6 +82,11 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding:24px 0 40px;font
 <h1>You don't need crypto to understand crypto.</h1>
 <p class="lead">Every Ethereum wallet and transaction is public. Paste one in and I'll X-ray it: who it is, what it holds, and what it's been doing, in plain English. No wallet, no sign-up, no crypto needed.</p>
 
+<div class="net" role="group" aria-label="Which network">
+<button type="button" data-net="main" aria-pressed="true">Real Ethereum</button>
+<button type="button" data-net="sepolia" aria-pressed="false">Sepolia test network</button>
+</div>
+<p class="testnote" id="testnote">Test network: coins here are practice money and worth nothing. Perfect for checking your own learning projects.</p>
 <form id="f" autocomplete="off">
 <label class="sr" for="q">Wallet address, .eth name or transaction hash</label>
 <input id="q" name="q" placeholder="0x… address, name.eth, or transaction hash" spellcheck="false">
@@ -111,8 +120,17 @@ Education, not financial advice. Labels come from public explorers and can be wr
 </div>
 
 <script>
-const API = 'https://eth.blockscout.com/api/v2';
-const EXPLORER = 'https://eth.blockscout.com';
+const NETS = {
+  main: {api: 'https://eth.blockscout.com/api/v2', explorer: 'https://eth.blockscout.com', unit: 'ETH', test: false},
+  sepolia: {api: 'https://eth-sepolia.blockscout.com/api/v2', explorer: 'https://eth-sepolia.blockscout.com', unit: 'SepoliaETH', test: true}
+};
+let NET = 'main';
+const N = () => NETS[NET];
+function setNet(n) {
+  NET = NETS[n] ? n : 'main';
+  document.querySelectorAll('.net button').forEach(b => b.setAttribute('aria-pressed', b.dataset.net === NET ? 'true' : 'false'));
+  $('testnote').style.display = N().test ? 'block' : 'none';
+}
 const $ = id => document.getElementById(id);
 let gbp = null; // price of 1 ETH in GBP
 
@@ -145,12 +163,12 @@ function num(n, max) {
   return n.toLocaleString('en-GB', {maximumFractionDigits: max == null ? (Math.abs(n) >= 100 ? 0 : 4) : max});
 }
 function pounds(ethAmount) {
-  if (!gbp) return '';
+  if (N().test || !gbp) return '';
   const v = ethAmount * gbp;
   if (v > 0 && v < 0.01) return 'under 1p';
   return '£' + v.toLocaleString('en-GB', {maximumFractionDigits: v >= 100 ? 0 : 2, minimumFractionDigits: v >= 100 ? 0 : 2});
 }
-function ethWithPounds(e) { const p = pounds(e); return num(e) + ' ETH' + (p ? ' (about ' + p + ')' : ''); }
+function ethWithPounds(e) { const p = pounds(e); return num(e) + ' ' + N().unit + (p ? ' (about ' + p + ')' : ''); }
 function ago(iso) {
   if (!iso) return '';
   const s = (Date.now() - Date.parse(iso)) / 1000;
@@ -195,7 +213,7 @@ async function xray(raw) {
     if (/^0x[0-9a-fA-F]{64}$/.test(q)) await xrayTx(q);
     else {
       if (/\.eth$/i.test(q)) {
-        const s = await j(API + '/search?q=' + encodeURIComponent(q));
+        const s = await j(N().api + '/search?q=' + encodeURIComponent(q));
         const hit = (s.items || []).find(i => i.address_hash);
         if (!hit) throw Object.assign(new Error('name'), {friendly: 'I couldn\'t find a wallet with the name ' + q + '.'});
         q = hit.address_hash;
@@ -204,7 +222,7 @@ async function xray(raw) {
       await xrayAddress(q);
     }
     status('');
-    const url = new URL(location.href); url.searchParams.set('q', raw.trim()); history.replaceState(null, '', url);
+    const url = new URL(location.href); url.searchParams.set('q', raw.trim()); if (N().test) url.searchParams.set('net', NET); else url.searchParams.delete('net'); history.replaceState(null, '', url);
     $('report').style.display = 'block';
     $('report').scrollIntoView({behavior: 'smooth', block: 'start'});
   } catch (e) {
@@ -214,11 +232,11 @@ async function xray(raw) {
 
 async function xrayAddress(addr) {
   const [a, c, txs] = await Promise.all([
-    j(API + '/addresses/' + addr),
-    j(API + '/addresses/' + addr + '/counters').catch(() => null),
-    j(API + '/addresses/' + addr + '/transactions').catch(() => ({items: []}))
+    j(N().api + '/addresses/' + addr),
+    j(N().api + '/addresses/' + addr + '/counters').catch(() => null),
+    j(N().api + '/addresses/' + addr + '/transactions').catch(() => ({items: []}))
   ]);
-  await loadPrice(a.exchange_rate);
+  if (!N().test) await loadPrice(a.exchange_rate);
   const bal = eth(a.coin_balance || '0');
   const kind = kindOf(a);
   const name = labelOf(a);
@@ -235,7 +253,7 @@ async function xrayAddress(addr) {
   h += '<p class="mono" style="margin:0">' + esc(a.hash) + '</p></div>';
 
   h += '<div class="card"><p class="kicker" style="margin-top:0">// the numbers</p><div class="stats">';
-  h += '<div class="stat"><div class="v">' + num(bal) + ' ETH</div><div class="k">' + (pounds(bal) ? 'about ' + pounds(bal) + ' right now' : 'ETH balance') + '</div></div>';
+  h += '<div class="stat"><div class="v">' + num(bal) + ' ' + N().unit + '</div><div class="k">' + (N().test ? 'practice money, worth £0' : pounds(bal) ? 'about ' + pounds(bal) + ' right now' : 'ETH balance') + '</div></div>';
   if (txCount != null) h += '<div class="stat"><div class="v">' + txCount.toLocaleString('en-GB') + '</div><div class="k">transactions</div></div>';
   if (tokCount != null) h += '<div class="stat"><div class="v">' + tokCount.toLocaleString('en-GB') + '</div><div class="k">token transfers</div></div>';
   if (items.length) h += '<div class="stat"><div class="v">' + esc(ago(items[0].timestamp)) + '</div><div class="k">last active</div></div>';
@@ -255,13 +273,14 @@ async function xrayAddress(addr) {
       else if (fromMe) line = 'Used ' + who(t.to) + (method ? ' to <b>' + esc(method) + '</b>' : '') + ', with no ETH moved';
       else line = who(t.from) + ' interacted with this address' + (method ? ' (<b>' + esc(method) + '</b>)' : '');
       const tag = failed ? '<span class="tag fail">failed</span>' : (v > 0 ? (fromMe ? '<span class="tag out">out</span>' : '<span class="tag in">in</span>') : '<span class="tag">action</span>');
-      h += '<li><span class="when">' + esc(ago(t.timestamp)) + '</span>' + tag + line + '.' + (fee && fromMe ? ' <span class="small">Fee: ' + (pounds(fee) || num(fee) + ' ETH') + '.</span>' : '') + ' <a class="small" href="' + EXPLORER + '/tx/' + esc(t.hash) + '" target="_blank" rel="noopener">details</a></li>';
+      h += '<li><span class="when">' + esc(ago(t.timestamp)) + '</span>' + tag + line + '.' + (fee && fromMe ? ' <span class="small">Fee: ' + (pounds(fee) || num(fee) + ' ' + N().unit) + '.</span>' : '') + ' <a class="small" href="' + N().explorer + '/tx/' + esc(t.hash) + '" target="_blank" rel="noopener">details</a></li>';
     });
     h += '</ul>';
   }
   h += '</div>';
 
   const notes = [];
+  if (N().test) notes.push('This is on the Sepolia test network, where developers practise with free coins. Nothing here is real money.');
   if (kind.k === 'contract') notes.push('Nobody owns a smart contract the way a person owns a wallet. It holds and moves money by following its code.');
   if (kind.k === 'smart-wallet') notes.push('This wallet uses a 2025 Ethereum upgrade that lets ordinary wallets act like apps: batching payments, paying fees in other tokens, and adding extra security.');
   if (bal >= 10000) notes.push('With over 10,000 ETH, this is a giant: moves from addresses like this can make headlines.');
@@ -272,13 +291,13 @@ async function xrayAddress(addr) {
   else notes.push('No public name is linked. That\'s normal: most wallets are anonymous, but every move they make is still visible.');
   h += '<div class="card"><p class="kicker" style="margin-top:0">// what this tells us</p><ul class="notes">' + notes.map(n => '<li>' + n + '</li>').join('') + '</ul></div>';
 
-  h += actions(EXPLORER + '/address/' + addr);
+  h += actions(N().explorer + '/address/' + addr, items.length === 0 && bal === 0);
   $('report').innerHTML = h;
 }
 
 async function xrayTx(hash) {
-  const t = await j(API + '/transactions/' + hash);
-  await loadPrice(t.exchange_rate);
+  const t = await j(N().api + '/transactions/' + hash);
+  if (!N().test) await loadPrice(t.exchange_rate);
   const v = eth(t.value), fee = eth(t.fee && t.fee.value);
   const failed = t.status && t.status !== 'ok';
   const method = t.decoded_input && t.decoded_input.method_call ? t.decoded_input.method_call.split('(')[0] : (t.method && !/^0x/.test(t.method) ? t.method : '');
@@ -309,8 +328,8 @@ async function xrayTx(hash) {
   }
 
   h += '<div class="card"><p class="kicker" style="margin-top:0">// the numbers</p><div class="stats">';
-  h += '<div class="stat"><div class="v">' + num(v) + ' ETH</div><div class="k">' + (pounds(v) ? 'about ' + pounds(v) + ' today' : 'ETH sent') + '</div></div>';
-  h += '<div class="stat"><div class="v">' + (pounds(fee) || num(fee) + ' ETH') + '</div><div class="k">fee paid to the network</div></div>';
+  h += '<div class="stat"><div class="v">' + num(v) + ' ' + N().unit + '</div><div class="k">' + (N().test ? 'practice money, worth £0' : pounds(v) ? 'about ' + pounds(v) + ' today' : 'amount sent') + '</div></div>';
+  h += '<div class="stat"><div class="v">' + (pounds(fee) || num(fee) + ' ' + N().unit) + '</div><div class="k">fee paid to the network</div></div>';
   if (t.block_number) h += '<div class="stat"><div class="v">#' + Number(t.block_number).toLocaleString('en-GB') + '</div><div class="k">block it was written into</div></div>';
   if (t.confirmations) h += '<div class="stat"><div class="v">' + Number(t.confirmations).toLocaleString('en-GB') + '</div><div class="k">blocks added on top since</div></div>';
   h += '</div></div>';
@@ -321,24 +340,31 @@ async function xrayTx(hash) {
   notes.push('Pound values use today\'s ETH price, so they may differ from what it was worth at the time.');
   h += '<div class="card"><p class="kicker" style="margin-top:0">// what this tells us</p><ul class="notes">' + notes.map(n => '<li>' + n + '</li>').join('') + '</ul></div>';
 
-  h += actions(EXPLORER + '/tx/' + hash);
+  h += actions(N().explorer + '/tx/' + hash, false);
   $('report').innerHTML = h;
 }
 
-function actions(link) {
-  return '<div class="row"><button class="ghost" type="button" id="copy">Copy link to this X-Ray</button><a class="ghost" href="' + link + '" target="_blank" rel="noopener">Check it yourself on the explorer</a></div>';
+function actions(link, empty) {
+  let tip = '';
+  if (empty && !N().test) tip = '<div class="card"><p style="margin:0 0 12px;color:var(--muted)">This address has nothing on real Ethereum. If it\'s a practice wallet, its activity will be on the test network.</p><button class="ghost" type="button" id="trytest">Check it on Sepolia instead</button></div>';
+  return tip + '<div class="row"><button class="ghost" type="button" id="copy">Copy link to this X-Ray</button><a class="ghost" href="' + link + '" target="_blank" rel="noopener">Check it yourself on the explorer</a></div>';
 }
 
 document.addEventListener('click', e => {
   if (e.target && e.target.id === 'copy') {
     navigator.clipboard.writeText(location.href).then(() => { e.target.textContent = 'Link copied'; }, () => { e.target.textContent = location.href; });
   }
+  if (e.target && e.target.id === 'trytest') { setNet('sepolia'); xray($('q').value); return; }
+  const nb = e.target.closest && e.target.closest('.net button');
+  if (nb) { setNet(nb.dataset.net); if ($('q').value.trim()) xray($('q').value); return; }
   const chip = e.target.closest && e.target.closest('.chip');
-  if (chip) { $('q').value = chip.dataset.q; xray(chip.dataset.q); }
+  if (chip) { setNet('main'); $('q').value = chip.dataset.q; xray(chip.dataset.q); }
 });
 $('f').addEventListener('submit', e => { e.preventDefault(); xray($('q').value); });
 
-const start = new URL(location.href).searchParams.get('q');
+const params = new URL(location.href).searchParams;
+setNet(params.get('net') || 'main');
+const start = params.get('q');
 if (start) { $('q').value = start; xray(start); }
 </script>
 </body>
