@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Start here: your first crypto wallet, with £0</title>
+<meta name="description" content="A free, step-by-step guide to setting up your first crypto wallet safely and getting free test coins to learn with. No money needed.">
+<meta property="og:title" content="Your first crypto wallet, with £0">
+<meta property="og:description" content="Free step-by-step guide: set up a wallet safely, get free practice coins, and learn without risking a penny.">
+<meta property="og:image" content="https://shana-portfolio-reqv.vercel.app/img/start-preview.png">
+<meta property="og:url" content="https://shana-portfolio-reqv.vercel.app/start">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0E1014;--panel:#14171C;--card:#1C2027;--line:#262B33;--line2:#39404A;--text:#E8ECEF;--muted:#B5BDC6;--dim:#8A939D;--mint:#7CE0B5;--warn:#F2C46D;--bad:#F28B82}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.65}
+a{color:var(--mint)}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px 0}
+header a{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--text);text-decoration:none}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--mint);margin:24px 0 8px}
+h1{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(38px,8vw,60px);line-height:1.03;letter-spacing:-0.02em;margin:0 0 14px}
+h2{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(24px,5vw,30px);line-height:1.15;margin:0 0 10px}
+.lead{color:var(--muted);margin:0 0 20px}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}
+.facts span{font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid var(--line2);border-radius:999px;padding:6px 12px;color:var(--muted)}
+.video{min-height:150px;margin:0 auto 10px;background:var(--panel);border:1px solid var(--line);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--dim);text-align:center;padding:20px}
+.progress{position:sticky;top:0;z-index:5;background:rgba(14,16,20,.94);backdrop-filter:blur(6px);padding:12px 0;border-bottom:1px solid var(--line);margin:28px 0 8px}
+.bar{height:6px;background:var(--card);border-radius:6px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;width:0;background:var(--mint);transition:width .3s}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;margin:18px 0}
+.step.done{border-color:var(--mint)}
+.num{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--mint)}
+.step ol,.step ul{padding-left:22px;margin:10px 0}
+.step li{margin:6px 0}
+.warn{border-left:3px solid var(--warn);background:#221E13;padding:12px 14px;border-radius:0 10px 10px 0;margin:14px 0;font-size:16px}
+.bad{border-left-color:var(--bad);background:#231616}
+.donebtn{font:inherit;font-weight:600;border:1px solid var(--line2);background:transparent;color:var(--text);border-radius:10px;padding:12px 18px;cursor:pointer;margin-top:10px;min-height:44px}
+.step.done .donebtn{background:var(--mint);color:var(--bg);border-color:var(--mint)}
+.check{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.check input{flex:1 1 260px;min-width:0;background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:13px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:14px}
+.btn{font:inherit;font-weight:600;border:0;border-radius:10px;padding:13px 20px;cursor:pointer;background:var(--mint);color:var(--bg);text-decoration:none;display:inline-block}
+#checkOut{margin-top:12px;min-height:22px}
+.sub{background:linear-gradient(180deg,#15211C,var(--panel));border:1.5px solid var(--mint);border-radius:16px;padding:26px;margin:30px 0}
+.sub iframe{width:100%;height:150px;border:0;border-radius:10px;background:#fff;margin-top:12px}
+footer{border-top:1px solid var(--line);margin-top:40px;padding:24px 0 40px;font-size:14px;color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<a href="/">Shana Campbell</a>
+<a href="/#builds" style="font-family:Inter,sans-serif;font-weight:500;font-size:15px;color:var(--muted)">My builds →</a>
+</header>
+
+<main>
+<p class="kicker">// start here · free guide</p>
+<h1>Your first crypto wallet, with £0.</h1>
+<p class="lead">I'm Shana. Two days ago I didn't have a crypto wallet. This is exactly how I set one up safely and got free practice coins to learn with, without spending a penny. Follow along on your phone.</p>
+<div class="facts"><span>⏱ about 15 minutes</span><span>£0 needed</span><span>no coding</span><span>phone friendly</span></div>
+
+<div class="video" id="video">
+<b style="color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:20px">Watch me do it</b>
+<span>Video walkthrough coming soon. Follow the written steps below for now.</span>
+</div>
+
+<div class="progress" aria-live="polite">
+<span id="progText">0 of 7 steps done</span>
+<div class="bar" aria-hidden="true"><i id="progBar"></i></div>
+</div>
+
+<section class="step" id="s1" data-step>
+<p class="num">Step 1</p>
+<h2>Download a wallet app</h2>
+<p>A crypto wallet is an app that holds your keys: think of it as your account. I use <b>MetaMask</b>, one of the most popular.</p>
+<ol>
+<li>Open the <b>App Store</b> or <b>Google Play</b> and search <b>MetaMask</b>.</li>
+<li>Check the publisher is <b>MetaMask</b> (by Consensys) and it has millions of downloads.</li>
+<li>Install it.</li>
+</ol>
+<div class="warn bad"><b>Fake wallet apps exist.</b> They look real and steal everything. Only download from the official app store, and double-check the name and publisher.</div>
+<button class="donebtn" type="button">Mark step 1 done</button>
+</section>
+
+<section class="step" id="s2" data-step>
+<p class="num">Step 2</p>
+<h2>Create your wallet and protect your 12 words</h2>
+<ol>
+<li>Open MetaMask and choose <b>Create a new wallet</b>.</li>
+<li>Set a password for the app.</li>
+<li>MetaMask shows you a <b>Secret Recovery Phrase</b>: 12 words in order. <b>Write them on paper.</b></li>
+<li>Store that paper somewhere safe and private.</li>
+</ol>
+<div class="warn bad"><b>The 12 words are the wallet.</b> Anyone with them can take everything, forever. Never type them into a website, never send them in a message, never screenshot them, and never share them with anyone, including "support" staff. Real support will never ask.</div>
+<button class="donebtn" type="button">Mark step 2 done</button>
+</section>
+
+<section class="step" id="s3" data-step>
+<p class="num">Step 3</p>
+<h2>Switch to the practice network</h2>
+<p>Blockchains have <b>test networks</b>: practice copies where the coins are free and worth nothing. Ethereum's main one is called <b>Sepolia</b>. This is where you learn.</p>
+<ol>
+<li>In MetaMask, tap the <b>network</b> name or icon at the top.</li>
+<li>Look for <b>Show test networks</b> and switch it on. If you can't find it, go to <b>Settings → Advanced → Show test networks</b>.</li>
+<li>Choose <b>Sepolia</b>. If it's hiding, use the search bar and type "Sepolia". That's how I found it.</li>
+</ol>
+<div class="warn">MetaMask moves its menus around between updates, so yours may look slightly different. That's normal.</div>
+<button class="donebtn" type="button">Mark step 3 done</button>
+</section>
+
+<section class="step" id="s4" data-step>
+<p class="num">Step 4</p>
+<h2>Copy your wallet address</h2>
+<ol>
+<li>Tap <b>Receive</b>.</li>
+<li>Tap <b>Copy address</b>. It starts with <b>0x</b> and is 42 characters long.</li>
+</ol>
+<p>Your address is safe to share. It's like an account number: people can send to it, but nobody can take from it.</p>
+<button class="donebtn" type="button">Mark step 4 done</button>
+</section>
+
+<section class="step" id="s5" data-step>
+<p class="num">Step 5</p>
+<h2>Get free practice coins</h2>
+<p>A <b>faucet</b> is a website that gives out free test coins.</p>
+<ol>
+<li>Search <b>"Google Cloud Sepolia faucet"</b> and open Google's free faucet.</li>
+<li>Sign in with a Google account, paste your address and request test ETH.</li>
+<li>Wait a minute or two.</li>
+</ol>
+<div class="warn">Some faucets ask you to hold real crypto first. Skip those. If one is empty, try again tomorrow or search "Sepolia PoW faucet". <b>Never pay for test coins</b>: they're meant to be free, and sellers are often scammers.</div>
+<button class="donebtn" type="button">Mark step 5 done</button>
+</section>
+
+<section class="step" id="s6" data-step>
+<p class="num">Step 6</p>
+<h2>Check your coins arrived</h2>
+<p>MetaMask often shows test coins as <b>$0</b>, because they have no price. That's normal. Paste your address here and I'll check the blockchain for you:</p>
+<div class="check">
+<label for="addr" style="position:absolute;left:-9999px">Your wallet address</label>
+<input id="addr" placeholder="0x… your address" spellcheck="false" autocomplete="off">
+<button class="btn" type="button" id="checkBtn">Check</button>
+</div>
+<div id="checkOut" role="status" aria-live="polite"></div>
+<button class="donebtn" type="button">Mark step 6 done</button>
+</section>
+
+<section class="step" id="s7" data-step>
+<p class="num">Step 7</p>
+<h2>Learn the screen that empties wallets</h2>
+<p>Sometimes a wallet asks you to approve a <b>spending cap</b>: permission for an app to spend your coins. When I was setting up, MetaMask showed me one for <b>2.2 million dollars</b> by accident.</p>
+<ul>
+<li>If you didn't go looking for it, <b>don't approve it</b>. Tap Cancel.</li>
+<li>Read every pop-up before you tap. Scammers rely on people tapping fast.</li>
+<li>Don't tap <b>Buy</b> while you're learning. That's real money.</li>
+</ul>
+<button class="donebtn" type="button">Mark step 7 done</button>
+</section>
+
+<section class="sub" id="done">
+<p class="kicker" style="margin-top:0">// you did it</p>
+<h2>You now know more than most people who own crypto.</h2>
+<p style="color:var(--muted)">You've got a safe wallet, free practice coins and the most important safety habit. Here's what you can do with your new wallet next, still free:</p>
+<ul>
+<li><a href="/xray">X-ray your wallet</a> (switch to "Sepolia test network") and see your first transaction explained.</li>
+<li><a href="/proof">Stamp something you made</a> on the blockchain to prove it's yours. No coding.</li>
+</ul>
+<p style="margin:18px 0 0"><b>Want the next lessons?</b> I'm learning this in public and sharing every step. Get them by email:</p>
+<iframe src="https://maveserenova.substack.com/embed" title="Subscribe to Shana's newsletter" loading="lazy"></iframe>
+</section>
+</main>
+
+<footer>
+Made by <a href="/">Shana Campbell</a> · <a href="https://maveserenova.substack.com/p/day-1-i-got-my-first-crypto-for-free">Read my Day 1 story</a><br>
+Education only. This guide uses free test coins with no value. It isn't financial advice, and it doesn't recommend buying any crypto.
+</footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const steps = [...document.querySelectorAll('[data-step]')];
+let saved = [];
+try { saved = JSON.parse(localStorage.getItem('start-steps') || '[]'); } catch (e) {}
+
+function update() {
+  const n = steps.filter(s => s.classList.contains('done')).length;
+  $('progText').textContent = n === steps.length ? 'All 7 steps done. Well done!' : n + ' of ' + steps.length + ' steps done';
+  $('progBar').style.width = (n / steps.length * 100) + '%';
+  try { localStorage.setItem('start-steps', JSON.stringify(steps.filter(s => s.classList.contains('done')).map(s => s.id))); } catch (e) {}
+}
+steps.forEach((s, i) => {
+  const b = s.querySelector('.donebtn');
+  const set = on => { s.classList.toggle('done', on); b.textContent = on ? '✓ Step ' + (i + 1) + ' done' : 'Mark step ' + (i + 1) + ' done'; b.setAttribute('aria-pressed', on); };
+  set(saved.includes(s.id));
+  b.addEventListener('click', () => {
+    const on = !s.classList.contains('done'); set(on); update();
+    if (on && steps[i + 1]) steps[i + 1].scrollIntoView({behavior: 'smooth', block: 'start'});
+    if (on && i === steps.length - 1) $('done').scrollIntoView({behavior: 'smooth', block: 'start'});
+  });
+});
+update();
+
+// Step 6: read the Sepolia balance straight from the blockchain (free, no wallet connection)
+$('checkBtn').addEventListener('click', async () => {
+  const a = $('addr').value.trim();
+  const out = $('checkOut');
+  if (!/^0x[0-9a-fA-F]{40}$/.test(a)) { out.innerHTML = '<span style="color:var(--bad)">That doesn\'t look right. It should start with 0x and be 42 characters long.</span>'; return; }
+  out.textContent = 'Checking the Sepolia blockchain…';
+  try {
+    const r = await fetch('https://eth-sepolia.blockscout.com/api/v2/addresses/' + a);
+    if (r.status === 404) { out.innerHTML = 'Nothing has arrived yet. Faucets can take a few minutes, so try again shortly.'; return; }
+    if (!r.ok) throw new Error();
+    const d = await r.json();
+    const wei = BigInt(d.coin_balance || '0');
+    const eth = Number(wei / 10n ** 12n) / 1e6;
+    if (wei > 0n) {
+      out.innerHTML = '<b style="color:var(--mint)">✓ Your coins arrived: ' + eth.toLocaleString('en-GB', {maximumFractionDigits: 6}) + ' SepoliaETH.</b> <a href="/xray?q=' + a + '&net=sepolia">See it explained in the X-Ray</a>.';
+      const s6 = $('s6'); if (!s6.classList.contains('done')) s6.querySelector('.donebtn').click();
+    } else out.innerHTML = 'Nothing has arrived yet. Check you pasted the same address you gave the faucet, then try again in a few minutes.';
+  } catch (e) { out.innerHTML = '<span style="color:var(--bad)">Couldn\'t reach the blockchain just now. Try again in a minute.</span>'; }
+});
+</script>
+</body>
+</html>
