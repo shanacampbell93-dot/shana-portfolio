@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Proof of Creation: prove you made it first</title>
-<meta name="description" content="Stamp a fingerprint of your creative work on the blockchain. Your file never leaves your device.">
+<meta name="description" content="Stamp a fingerprint of your creative work on the Bitcoin blockchain, free. Your file never leaves your device.">
 <meta property="og:title" content="Proof of Creation: prove you made it first">
-<meta property="og:description" content="Stamp your work's fingerprint on the blockchain. Your file never leaves your device.">
+<meta property="og:description" content="Stamp your work's fingerprint on the Bitcoin blockchain, free. Your file never leaves your device.">
 <meta property="og:image" content="https://shana-portfolio-reqv.vercel.app/img/proof-preview.png">
 <meta property="og:url" content="https://shana-portfolio-reqv.vercel.app/proof">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,40 +28,39 @@ h2{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:22px;margin:
 .tabs button{font:inherit;font-size:15px;font-weight:500;background:transparent;color:var(--muted);border:0;border-radius:8px;padding:10px 16px;cursor:pointer;min-height:44px}
 .tabs button[aria-selected="true"]{background:var(--card);color:var(--text);box-shadow:inset 0 0 0 1px var(--mint)}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px}
-.drop{display:block;border:1.5px dashed var(--line2);border-radius:14px;padding:30px 20px;text-align:center;cursor:pointer;background:var(--bg)}
+.drop{display:block;border:1.5px dashed var(--line2);border-radius:14px;padding:30px 20px;text-align:center;cursor:pointer;background:var(--bg);position:relative}
 .drop:hover,.drop.over{border-color:var(--mint)}
 .drop input{position:absolute;left:-9999px}
 .drop b{font-family:'Space Grotesk',sans-serif;font-size:20px;display:block;margin-bottom:4px}
+.drop.small-drop{padding:18px 14px}
+.drop.small-drop b{font-size:17px}
 .fp{margin:16px 0 0;display:none}
 .mono{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--dim);word-break:break-all}
 label.f{display:block;font-size:15px;font-weight:500;margin:18px 0 6px}
 input[type=text]{width:100%;background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:14px;color:var(--text);font:inherit}
 input[type=text]:focus{outline:2px solid var(--mint);outline-offset:1px}
-.hint{font-size:14px;color:var(--warn);margin:6px 0 0}
+.hint{font-size:14px;color:var(--dim);margin:6px 0 0}
 .btn{font:inherit;font-weight:600;border:0;border-radius:10px;padding:15px 24px;cursor:pointer;background:var(--mint);color:var(--bg);margin-top:18px}
 .btn:disabled{opacity:.45;cursor:not-allowed}
 .ghost{font:inherit;font-size:15px;font-weight:500;background:transparent;color:var(--text);border:1px solid var(--line2);border-radius:10px;padding:11px 18px;cursor:pointer;text-decoration:none;display:inline-block}
 .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
-#msg{margin:18px 0 0;min-height:24px;color:var(--muted)}
-#msg.err{color:var(--bad)}
-.scan{height:3px;background:linear-gradient(90deg,transparent,var(--mint),transparent);background-size:40% 100%;background-repeat:no-repeat;animation:scan 1.1s linear infinite;border-radius:3px;margin-top:10px}
+.row > *{flex:1 1 220px}
+.msg{margin:18px 0 0;min-height:24px;color:var(--muted)}
+.msg.err{color:var(--bad)} .msg.ok{color:var(--mint)} .msg.warn{color:var(--warn)}
+.scan{height:3px;background:linear-gradient(90deg,transparent,var(--mint),transparent);background-size:40% 100%;background-repeat:no-repeat;animation:scan 1.1s linear infinite;border-radius:3px;margin-top:10px;display:none}
 @keyframes scan{from{background-position:-40% 0}to{background-position:140% 0}}
-.cert{margin-top:22px;border:1.5px solid var(--mint);border-radius:16px;padding:26px;background:linear-gradient(180deg,#15211C,var(--panel));display:none}
-.cert.none{border-color:var(--line2);background:var(--panel)}
+.cert{margin-top:22px;border:1.5px solid var(--mint);border-radius:16px;padding:26px;background:linear-gradient(180deg,#15211C,var(--panel))}
 .cert .big{font-family:'Space Grotesk',sans-serif;font-size:clamp(24px,5vw,32px);font-weight:600;line-height:1.15;margin:0 0 14px}
-.kv{display:grid;grid-template-columns:120px 1fr;gap:8px 14px;font-size:15px}
-.kv dt{color:var(--dim)}
-.kv dd{margin:0;word-break:break-all}
-.notice{border:1px solid var(--warn);background:#2A2414;color:var(--text);border-radius:12px;padding:14px 16px;margin:0 0 18px;font-size:15px;display:none}
+.cert canvas{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);margin-top:18px}
+.keep{padding-left:20px;margin:16px 0 0;color:var(--muted);font-size:15px}
+.keep li{margin-bottom:8px}
+.keep b{color:var(--text)}
 details{border-top:1px solid var(--line);padding:16px 0}
 details:last-of-type{border-bottom:1px solid var(--line)}
 summary{cursor:pointer;font-weight:600}
 details p{color:var(--muted);margin:10px 0 0}
-.work{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-top:1px solid var(--line)}
-.work:first-child{border-top:0}
-.work .n{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--mint);min-width:28px;padding-top:3px}
-.work b{font-family:'Space Grotesk',sans-serif;font-size:19px;display:block;line-height:1.25}
 footer{border-top:1px solid var(--line);margin-top:40px;padding:24px 0 40px;font-size:14px;color:var(--dim)}
+[hidden]{display:none !important}
 </style>
 </head>
 <body>
@@ -72,366 +71,223 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding:24px 0 40px;font
 </header>
 
 <main>
-<p class="kicker">// proof of creation · sepolia test network</p>
+<p class="kicker">// proof of creation · bitcoin · free</p>
 <h1>Prove you made it first.</h1>
-<p class="lead">Stamp a unique fingerprint of your design, photo, song or writing on the blockchain, with the date. If anyone copies it later, you can prove it was yours. Your file never leaves your device: only its fingerprint does.</p>
-
-<div class="notice" id="notice"></div>
+<p class="lead">Stamp a unique fingerprint of your design, photo, pattern or writing onto the Bitcoin blockchain, with the date. It's free, nobody can backdate it, and your file never leaves your device: only its fingerprint does.</p>
 
 <div class="tabs" role="tablist" aria-label="Choose what to do">
 <button role="tab" id="tab-stamp" aria-selected="true" aria-controls="stamp">Stamp my work</button>
-<button role="tab" id="tab-check" aria-selected="false" aria-controls="check">Check a file</button>
-<button role="tab" id="tab-mine" aria-selected="false" aria-controls="gallery">My stamps</button>
+<button role="tab" id="tab-check" aria-selected="false" aria-controls="check">Check a proof</button>
 </div>
 
-<section class="panel" id="workarea">
+<!-- STAMP -->
+<section class="panel" id="stamp" role="tabpanel" aria-labelledby="tab-stamp">
 <label class="drop" id="drop">
 <input type="file" id="file">
 <b id="dropTitle">Choose a file</b>
-<span class="small" style="color:var(--muted);font-size:15px" id="dropSub">Any image, video, audio, document or design. It stays on your device.</span>
+<span style="color:var(--muted);font-size:15px" id="dropSub">Any image, pattern PDF, design, photo or document. It stays on your device.</span>
 </label>
 <div class="fp" id="fpBox"><span style="font-size:14px;color:var(--muted)">Fingerprint (SHA-256):</span><div class="mono" id="fp"></div></div>
 
-<div id="stamp">
-<label class="f" for="title">Title (optional)</label>
-<input type="text" id="title" maxlength="100" placeholder="e.g. Album cover, March 2027">
-<p class="hint">The title is public and permanent on the blockchain. Don't include anything private.</p>
-<button class="btn" id="stampBtn" disabled>Connect wallet &amp; stamp</button>
-</div>
-
-<div id="check" hidden>
-<button class="btn" id="checkBtn" disabled>Check this file</button>
-<p class="small" style="color:var(--dim);font-size:14px;margin:10px 0 0">Checking is free and needs no wallet.</p>
-</div>
-
-<div id="msg" role="status" aria-live="polite"></div>
+<label class="f" for="title">Title of the work (optional)</label>
+<input type="text" id="title" maxlength="80" placeholder="e.g. Sunset print, original">
+<label class="f" for="creator">Your name or brand (optional)</label>
+<input type="text" id="creator" maxlength="60" placeholder="e.g. Tulip Studio">
+<p class="hint">These only go on your certificate. They're never sent anywhere.</p>
+<button class="btn" id="stampBtn" disabled>Stamp it on Bitcoin</button>
+<div class="scan" id="scan"></div>
+<div class="msg" id="msg" role="status" aria-live="polite"></div>
 </section>
 
-<section class="cert" id="cert" aria-live="polite"></section>
-
-<section class="panel" id="gallery" hidden>
-<p class="kicker" style="margin-top:0" id="galKicker">// my stamps</p>
-<p style="margin:0 0 14px;color:var(--muted)" id="galIntro">Connect your wallet to see everything you've stamped, read straight from the blockchain. No fee: reading is free.</p>
-<div class="row" style="margin-top:0"><button class="btn" style="margin-top:0" id="galConnect">Connect wallet</button></div>
-<div id="galList"></div>
+<section class="cert" id="result" hidden aria-live="polite">
+<p class="kicker" style="margin-top:0">// stamped</p>
+<p class="big">Save your proof now.</p>
+<div class="row" style="margin-top:0">
+<button class="btn" style="margin-top:0" id="dlOts">Download proof file (.ots)</button>
+<button class="ghost" id="dlCert">Download certificate</button>
+</div>
+<ol class="keep">
+<li><b>Keep three things together:</b> your original file (unchanged), the .ots proof file and the certificate.</li>
+<li><b>Don't edit the original.</b> Change one pixel and the fingerprint no longer matches. Stamp new versions separately.</li>
+<li><b>Bitcoin confirmation takes a few hours.</b> After that, anyone can confirm the date at <a href="https://opentimestamps.org" target="_blank" rel="noopener">opentimestamps.org</a> by dropping in your file and its .ots file.</li>
+</ol>
+<canvas id="cv" width="1080" height="1350" aria-label="Your certificate"></canvas>
 </section>
-<canvas id="cv" width="1080" height="1350" hidden></canvas>
+
+<!-- CHECK -->
+<section class="panel" id="check" role="tabpanel" aria-labelledby="tab-check" hidden>
+<p style="margin:0 0 14px;color:var(--muted)">Choose the original file and its .ots proof. This checks they belong together. It's free and needs no account.</p>
+<div class="row" style="margin-top:0">
+<label class="drop small-drop"><input type="file" id="chkFile"><b id="chkFileLbl">Original file</b><span style="color:var(--dim);font-size:14px">the work itself</span></label>
+<label class="drop small-drop"><input type="file" id="chkOts" accept=".ots"><b id="chkOtsLbl">Proof file</b><span style="color:var(--dim);font-size:14px">ends in .ots</span></label>
+</div>
+<div class="msg" id="chkMsg" role="status" aria-live="polite"></div>
+<p class="hint" style="margin-top:14px">To see the Bitcoin date itself, drop both files into <a href="https://opentimestamps.org" target="_blank" rel="noopener">opentimestamps.org</a>.</p>
+</section>
 
 <section style="margin-top:36px">
 <h2>How it works</h2>
 <details><summary>What's a fingerprint?</summary><p>Your device runs your file through a maths function called SHA-256, which turns it into a unique 64-character code. Change even one pixel or letter and the code changes completely. The code can't be turned back into your file, so nobody can see your work from it.</p></details>
-<details><summary>What goes on the blockchain?</summary><p>Only three things: the fingerprint, your wallet address and the title you chose (if any), plus the time it was stamped. Never the file itself.</p></details>
-<details><summary>How do I prove it later?</summary><p>Keep your original file safe and unchanged. Anyone can open "Check a file", choose that same file, and see who stamped it and when. You can also share your proof link.</p></details>
-<details><summary>Is this legal proof of copyright?</summary><p>In the UK, copyright belongs to you automatically when you create something. This doesn't replace that, and it isn't legal advice. It's a dated, tamper-proof record that the file existed and who stamped it, which can support your claim. For disputes, speak to a solicitor.</p></details>
-<details><summary>Why the test network?</summary><p>This version runs on Sepolia, Ethereum's practice network, so it's free and safe to try. You'll need MetaMask set to Sepolia with a little free test ETH to stamp. Checking needs nothing.</p></details>
+<details><summary>What goes on the blockchain?</summary><p>Only the fingerprint, mixed with a random value first so nobody can tell which one is yours. It's sent to the free, open-source OpenTimestamps servers, which bundle it with thousands of others into a single Bitcoin transaction. That's why it costs nothing. Your file, title and name are never sent.</p></details>
+<details><summary>How do I prove it later?</summary><p>Keep your original file safe and unchanged, with its .ots proof file. Anyone can drop both into opentimestamps.org and see the date Bitcoin recorded it, without needing to trust me or this site.</p></details>
+<details><summary>Is this legal proof of copyright?</summary><p>In the UK, copyright belongs to you automatically when you create something. This doesn't replace that, and it isn't legal advice. It's a dated, tamper-proof record that your exact file existed at that time. It doesn't prove who made it on its own, so keep your sketches and drafts too. In 2025 a French court accepted blockchain timestamps as part of the evidence in a design-copying case. For disputes, speak to a solicitor.</p></details>
+<details><summary>What happened to the Sepolia version?</summary><p>The first version ran on my own Solidity smart contract on Ethereum's Sepolia test network. Test networks get shut down eventually, so proofs there wouldn't last. This version anchors to Bitcoin instead, which is permanent and free to use.</p></details>
 </section>
 </main>
 
 <footer>
-Built by <a href="/">Shana Campbell</a> · <a href="/xray">Blockchain X-Ray</a> · <a href="https://github.com/shanacampbell93-dot/shana-portfolio/blob/main/contracts/ProofOfCreation.sol">Read the smart contract</a> · <a href="https://maveserenova.substack.com/p/i-built-my-first-smart-contract-app">How I built it</a><br>
-Education project on a test network. Not legal advice.
+Built by <a href="/">Shana Campbell</a> · <a href="/xray">Blockchain X-Ray</a> · <a href="https://github.com/shanacampbell93-dot/shana-portfolio/blob/main/contracts/ProofOfCreation.sol">My first smart contract</a> · <a href="https://maveserenova.substack.com/p/i-built-my-first-smart-contract-app">How I built it</a><br>
+Stamping by the open-source <a href="https://opentimestamps.org" target="_blank" rel="noopener">OpenTimestamps</a> protocol. Not legal advice.
 </footer>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
 <script>
-// ---- settings ----
-const CONTRACT = '0xCe9B888783F6F6365049e1f9109e738a5cBe52De'; // ProofOfCreation on Sepolia
-const CHAIN_ID = 11155111n;
-const CHAIN_HEX = '0xaa36a7';
-const READ_RPC = 'https://ethereum-sepolia-rpc.publicnode.com';
-const ABI = [
-  'function stamp(bytes32 fingerprint, string title)',
-  'function verify(bytes32 fingerprint) view returns (bool exists, address creator, uint64 timestamp, string title)',
-  'function totalStamps() view returns (uint256)',
-  'event Stamped(bytes32 indexed fingerprint, address indexed creator, uint64 timestamp, string title)'
-];
-const DEPLOY_BLOCK = 12215835;
-const EXPLORER_API = 'https://eth-sepolia.blockscout.com/api/v2';
-const SITE = 'shana-portfolio-reqv.vercel.app';
-let currentFile = null, previewImg = null;
-
-const $ = id => document.getElementById(id);
-let fingerprint = null, fileName = '', mode = 'stamp';
-const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-const short = h => h ? h.slice(0, 6) + '…' + h.slice(-4) : '';
-const when = ts => new Date(Number(ts) * 1000).toLocaleString('en-GB', {day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'});
-
-function msg(text, err, busy) {
-  $('msg').className = err ? 'err' : '';
-  $('msg').innerHTML = esc(text) + (busy ? '<div class="scan" aria-hidden="true"></div>' : '');
-}
-function ready() {
-  const live = !!CONTRACT && !!window.ethers;
-  $('stampBtn').disabled = !(live && fingerprint);
-  $('checkBtn').disabled = !(live && fingerprint);
-}
-function setMode(m) {
-  mode = m;
-  $('tab-stamp').setAttribute('aria-selected', m === 'stamp');
-  $('tab-check').setAttribute('aria-selected', m === 'check');
-  $('tab-mine').setAttribute('aria-selected', m === 'mine');
-  $('workarea').hidden = m === 'mine';
-  $('gallery').hidden = m !== 'mine';
-  $('stamp').hidden = m !== 'stamp';
-  $('check').hidden = m !== 'check';
-  $('cert').style.display = 'none';
-  msg('');
-}
-$('tab-stamp').onclick = () => setMode('stamp');
-$('tab-check').onclick = () => setMode('check');
-$('tab-mine').onclick = () => setMode('mine');
-
-// ---- fingerprint the file, entirely in the browser ----
-async function fingerprintFile(file) {
-  if (!file) return;
-  fileName = file.name;
-  currentFile = file; previewImg = null;
-  if (/^image\//.test(file.type)) {
-    const img = new Image();
-    img.onload = () => { previewImg = img; };
-    img.src = URL.createObjectURL(file);
+/* ====== OTS-CORE (pure functions, no DOM) ====== */
+const OTS = (() => {
+  const MAGIC = new Uint8Array([0x00,0x4f,0x70,0x65,0x6e,0x54,0x69,0x6d,0x65,0x73,0x74,0x61,0x6d,0x70,0x73,0x00,0x00,0x50,0x72,0x6f,0x6f,0x66,0x00,0xbf,0x89,0xe2,0xe8,0x84,0xe8,0x92,0x94]);
+  const OP_SHA256 = 0x08, OP_APPEND = 0xf0, FORK = 0xff;
+  const CALENDARS = [
+    "https://a.pool.opentimestamps.org",
+    "https://b.pool.opentimestamps.org",
+    "https://a.pool.eternitywall.com",
+    "https://ots.btc.catallaxy.com"
+  ];
+  const sha256 = async (buf) => new Uint8Array(await crypto.subtle.digest("SHA-256", buf));
+  const hex = (u8) => Array.from(u8, b => b.toString(16).padStart(2,"0")).join("");
+  function varuint(n){ const out=[]; do { let b=n&0x7f; n=Math.floor(n/128); if(n) b|=0x80; out.push(b);} while(n); return out; }
+  function concat(parts){ const len=parts.reduce((a,p)=>a+p.length,0); const o=new Uint8Array(len); let i=0; for(const p of parts){o.set(p,i);i+=p.length;} return o; }
+  // Detached .ots file: file hash -> append(nonce) -> sha256 -> [calendar timestamps]
+  function buildOts(fileHash, nonce, calendarResponses){
+    if(!calendarResponses.length) throw new Error("no calendar responses");
+    const parts=[MAGIC, Uint8Array.of(0x01), Uint8Array.of(OP_SHA256), fileHash,
+                 Uint8Array.of(OP_APPEND, ...varuint(nonce.length)), nonce, Uint8Array.of(OP_SHA256)];
+    calendarResponses.forEach((r,i)=>{ if(i<calendarResponses.length-1) parts.push(Uint8Array.of(FORK)); parts.push(r); });
+    return concat(parts);
   }
-  msg('Making a fingerprint of your file…', false, true);
-  const buf = await file.arrayBuffer();
-  const digest = await crypto.subtle.digest('SHA-256', buf);
-  fingerprint = '0x' + [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, '0')).join('');
-  $('fp').textContent = fingerprint;
-  $('fpBox').style.display = 'block';
-  $('dropTitle').textContent = file.name;
-  $('dropSub').textContent = (file.size >= 1048576 ? (file.size / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(file.size / 1024)) + ' KB') + ' · tap to choose a different file';
-  $('cert').style.display = 'none';
-  msg('');
-  ready();
-}
-$('file').addEventListener('change', e => fingerprintFile(e.target.files[0]));
-['dragover', 'dragenter'].forEach(ev => $('drop').addEventListener(ev, e => { e.preventDefault(); $('drop').classList.add('over'); }));
-['dragleave', 'drop'].forEach(ev => $('drop').addEventListener(ev, e => { e.preventDefault(); $('drop').classList.remove('over'); }));
-$('drop').addEventListener('drop', e => { if (e.dataTransfer.files[0]) fingerprintFile(e.dataTransfer.files[0]); });
-
-// ---- reading (free, no wallet) ----
-function reader() { return new ethers.Contract(CONTRACT, ABI, new ethers.JsonRpcProvider(READ_RPC)); }
-async function lookup(fp) {
-  const r = await reader().verify(fp);
-  return {exists: r[0], creator: r[1], timestamp: r[2], title: r[3]};
-}
-
-function showProof(fp, p, txHash) {
-  const link = location.origin + location.pathname + '?check=' + fp;
-  let h = '<p class="kicker" style="margin-top:0">// ' + (txHash ? 'stamped: proof of creation' : 'proof found') + '</p>';
-  h += '<p class="big">' + (p.title ? '"' + esc(p.title) + '" was' : 'This file was') + ' stamped on ' + esc(when(p.timestamp)) + '.</p>';
-  h += '<dl class="kv"><dt>Stamped by</dt><dd><a href="/xray?q=' + esc(p.creator) + '&net=sepolia">' + esc(p.creator) + '</a></dd>';
-  h += '<dt>Fingerprint</dt><dd class="mono">' + esc(fp) + '</dd>';
-  if (txHash) h += '<dt>Transaction</dt><dd><a href="/xray?q=' + esc(txHash) + '&net=sepolia">' + esc(short(txHash)) + ' (X-ray it)</a></dd>';
-  h += '<dt>Network</dt><dd>Sepolia test network</dd></dl>';
-  h += '<div class="row"><button class="btn" style="margin-top:0" type="button" id="saveCert">Save certificate image</button><button class="ghost" type="button" id="copyProof" data-link="' + esc(link) + '">Copy proof link</button></div>';
-  lastProof = {fp: fp, p: p};
-  if (txHash) h += '<p style="color:var(--muted);font-size:15px;margin:16px 0 0">Keep your original file safe and unchanged. It\'s the key that proves this record is yours.</p>';
-  $('cert').className = 'cert';
-  $('cert').innerHTML = h;
-  $('cert').style.display = 'block';
-  $('cert').scrollIntoView({behavior: 'smooth', block: 'nearest'});
-}
-let lastProof = null;
-function showNone() {
-  $('cert').className = 'cert none';
-  $('cert').innerHTML = '<p class="kicker" style="margin-top:0">// no proof found</p><p class="big" style="font-size:24px">This exact file hasn\'t been stamped.</p><p style="color:var(--muted);margin:0">Either nobody stamped it, or the file has changed since (even a tiny edit, resize or re-save gives a new fingerprint).</p>';
-  $('cert').style.display = 'block';
-}
-
-async function checkFp(fp) {
-  msg('Checking the blockchain…', false, true);
-  try {
-    const p = await lookup(fp);
-    msg('');
-    p.exists ? showProof(fp, p) : showNone();
-  } catch (e) { msg('Couldn\'t reach the blockchain. Wait a moment and try again.', true); }
-}
-$('checkBtn').onclick = () => checkFp(fingerprint);
-
-// ---- stamping (needs MetaMask on Sepolia) ----
-async function stamp() {
-  if (!window.ethereum) {
-    msg('No wallet found. Open this page on a computer with MetaMask, or inside the MetaMask app\'s browser.', true);
-    return;
+  function readOtsFileHash(bytes){
+    for(let i=0;i<MAGIC.length;i++) if(bytes[i]!==MAGIC[i]) throw new Error("it isn't an OpenTimestamps proof file");
+    let p=MAGIC.length;
+    if(bytes[p++]!==0x01) throw new Error("unsupported proof version");
+    if(bytes[p++]!==OP_SHA256) throw new Error("this proof uses a hash type this page can't check");
+    return bytes.slice(p,p+32);
   }
-  $('stampBtn').disabled = true;
-  try {
-    const existing = await lookup(fingerprint).catch(() => null);
-    if (existing && existing.exists) { msg('This file is already stamped, so the first stamp stands as the proof.'); showProof(fingerprint, existing); return; }
+  async function stamp(fileHash, fetchFn){
+    const nonce = crypto.getRandomValues(new Uint8Array(16));
+    const digest = await sha256(concat([fileHash, nonce]));
+    const results = await Promise.allSettled(CALENDARS.map(async url => {
+      const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 15000);
+      try{
+        const res = await fetchFn(url + "/digest", {method:"POST", body:digest, signal:ctrl.signal,
+          headers:{"Accept":"application/vnd.opentimestamps.v1","Content-Type":"application/x-www-form-urlencoded"}});
+        if(!res.ok) throw new Error(url+" answered "+res.status);
+        const body = new Uint8Array(await res.arrayBuffer());
+        if(!body.length || body.length>10000) throw new Error(url+" sent an unexpected answer");
+        return body;
+      } finally { clearTimeout(t); }
+    }));
+    const ok = results.filter(r=>r.status==="fulfilled").map(r=>r.value);
+    return { ots: ok.length ? buildOts(fileHash, nonce, ok) : null, servers: ok.length, tried: CALENDARS.length };
+  }
+  return { sha256, hex, buildOts, readOtsFileHash, stamp, varuint };
+})();
+/* ====== /OTS-CORE ====== */
 
-    msg('Connecting to your wallet…', false, true);
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    await provider.send('eth_requestAccounts', []);
-    let net = await provider.getNetwork();
-    if (net.chainId !== CHAIN_ID) {
-      msg('Switching your wallet to the Sepolia test network…', false, true);
-      await window.ethereum.request({method: 'wallet_switchEthereumChain', params: [{chainId: CHAIN_HEX}]});
+(() => {
+  const $ = (id) => document.getElementById(id);
+  let file=null, fileHash=null, otsBytes=null, stampedAt=null;
+  const fmtSize = (n) => n<1024? n+" B" : n<1048576? (n/1024).toFixed(1)+" KB" : (n/1048576).toFixed(1)+" MB";
+  const safeName = (s) => (s||"work").replace(/[^\w\-. ]+/g,"").trim().replace(/\s+/g,"-").slice(0,60) || "work";
+  const say = (el, text, cls) => { el.textContent=text; el.className="msg "+(cls||""); };
+
+  // tabs
+  const tabs=[["tab-stamp","stamp"],["tab-check","check"]];
+  tabs.forEach(([t,p])=>$(t).addEventListener("click",()=>{
+    tabs.forEach(([t2,p2])=>{ const on=t2===t; $(t2).setAttribute("aria-selected",on); $(p2).hidden=!on; });
+    $("result").hidden = (t!=="tab-stamp") || !otsBytes;
+  }));
+
+  async function pickFile(f){
+    if(!f) return;
+    file=f; otsBytes=null; $("result").hidden=true; say($("msg"),"");
+    $("dropTitle").textContent=f.name; $("dropSub").textContent=fmtSize(f.size)+" · tap to choose a different file";
+    $("fpBox").style.display="block"; $("fp").textContent="Fingerprinting…";
+    try{
+      fileHash = await OTS.sha256(await f.arrayBuffer());
+      $("fp").textContent = OTS.hex(fileHash); $("stampBtn").disabled=false;
+    }catch(e){
+      fileHash=null; $("stampBtn").disabled=true;
+      $("fp").textContent="Couldn't read this file. Try another one.";
     }
-    const signer = await new ethers.BrowserProvider(window.ethereum).getSigner();
-    const c = new ethers.Contract(CONTRACT, ABI, signer);
-    msg('Confirm the stamp in your wallet. It costs a tiny fee in test ETH.', false, true);
-    const tx = await c.stamp(fingerprint, $('title').value.trim().slice(0, 100));
-    msg('Stamping on the blockchain… this usually takes about 15 seconds.', false, true);
-    await tx.wait();
-    const p = await lookup(fingerprint);
-    msg('');
-    showProof(fingerprint, p, tx.hash);
-  } catch (e) {
-    const t = (e && (e.shortMessage || e.message || '')) + '';
-    if (e && (e.code === 'ACTION_REJECTED' || e.code === 4001)) msg('You cancelled in your wallet. Nothing was stamped.', true);
-    else if (/insufficient funds/i.test(t)) msg('Your wallet needs a little Sepolia test ETH to pay the fee. Get some free from a Sepolia faucet.', true);
-    else if (/already stamped/i.test(t)) msg('This file is already stamped.', true);
-    else if (e && e.code === 4902) msg('Your wallet doesn\'t have Sepolia added yet. Add it in MetaMask, then try again.', true);
-    else msg('Something went wrong: ' + (t.slice(0, 140) || 'unknown error') + '.', true);
-  } finally { ready(); }
-}
-$('stampBtn').onclick = stamp;
-
-document.addEventListener('click', e => {
-  if (e.target && e.target.id === 'saveCert') { saveCertificate(); return; }
-  if (e.target && e.target.id === 'copyProfile') { const l = e.target.dataset.link; navigator.clipboard.writeText(l).then(() => { e.target.textContent = 'Link copied'; }, () => { e.target.textContent = l; }); return; }
-  if (e.target && e.target.id === 'copyProof') {
-    const l = e.target.dataset.link;
-    navigator.clipboard.writeText(l).then(() => { e.target.textContent = 'Link copied'; }, () => { e.target.textContent = l; });
   }
-});
+  $("file").addEventListener("change", e => pickFile(e.target.files[0]));
+  const drop=$("drop");
+  ["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("over");}));
+  ["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("over");}));
+  drop.addEventListener("drop", e => pickFile(e.dataTransfer.files[0]));
 
+  $("stampBtn").addEventListener("click", async () => {
+    if(!fileHash) return;
+    $("stampBtn").disabled=true; $("scan").style.display="block";
+    say($("msg"),"Sending your fingerprint to the OpenTimestamps servers…");
+    try{
+      const r = await OTS.stamp(fileHash, fetch.bind(window));
+      if(!r.ots){ say($("msg"),"Couldn't reach the timestamp servers. Check your connection and try again.","err"); $("stampBtn").disabled=false; return; }
+      otsBytes=r.ots; stampedAt=new Date();
+      say($("msg"), `Stamped. ${r.servers} of ${r.tried} independent servers are holding your proof, and it will be written into Bitcoin within a few hours.`, r.servers>1?"ok":"warn");
+      drawCert(); $("result").hidden=false; $("result").scrollIntoView({behavior:"smooth"});
+    }catch(e){ say($("msg"),"Something went wrong: "+e.message,"err"); $("stampBtn").disabled=false; }
+    finally{ $("scan").style.display="none"; }
+  });
 
-// ---- certificate image (drawn on a canvas, 1080 x 1350, Instagram portrait size) ----
-function wrapLines(x, text, maxW) {
-  const words = String(text).split(' '), lines = []; let line = '';
-  words.forEach(w => { const t = line ? line + ' ' + w : w; if (x.measureText(t).width > maxW && line) { lines.push(line); line = w; } else line = t; });
-  if (line) lines.push(line);
-  return lines;
-}
-async function drawCertificate(fp, p) {
-  try { await document.fonts.ready; } catch (e) {}
-  const cv = $('cv'), x = cv.getContext('2d'), W = 1080, H = 1350, M = 80;
-  // background and frame
-  x.fillStyle = '#0E1014'; x.fillRect(0, 0, W, H);
-  x.strokeStyle = '#7CE0B5'; x.lineWidth = 4; x.strokeRect(40, 40, W - 80, H - 80);
-  x.strokeStyle = '#262B33'; x.lineWidth = 2; x.strokeRect(56, 56, W - 112, H - 112);
-  // header
-  x.fillStyle = '#7CE0B5'; x.font = '500 30px "JetBrains Mono", monospace'; x.textAlign = 'left';
-  x.fillText('// PROOF OF CREATION', M + 20, 150);
-  // artwork preview, only if this device has the image open (it never leaves the device)
-  let y = 200;
-  if (previewImg) {
-    const box = 330, r = Math.min(box / previewImg.width, box / previewImg.height);
-    const w = previewImg.width * r, h = previewImg.height * r;
-    x.fillStyle = '#14171C'; x.fillRect(M + 20, y, W - 2 * M - 40, box + 40);
-    x.drawImage(previewImg, (W - w) / 2, y + 20 + (box - h) / 2, w, h);
-    y += box + 100;
-  } else y += 40;
-  // title
-  x.fillStyle = '#E8ECEF'; x.font = '600 64px "Space Grotesk", sans-serif';
-  const title = p.title ? '"' + p.title + '"' : 'Untitled work';
-  let tl = wrapLines(x, title, W - 2 * M - 40); if (tl.length > 2) { tl = tl.slice(0, 2); tl[1] = tl[1].replace(/\s*\S*$/, '') + '…"'; } tl.forEach(l => { x.fillText(l, M + 20, y); y += 74; });
-  y += 10;
-  x.fillStyle = '#B5BDC6'; x.font = '400 34px Inter, sans-serif';
-  x.fillText('was stamped on the blockchain on', M + 20, y); y += 50;
-  x.fillStyle = '#E8ECEF'; x.font = '600 40px Inter, sans-serif';
-  x.fillText(when(p.timestamp), M + 20, y); y += 80;
-  // details
-  const row = (k, v) => { x.fillStyle = '#8A939D'; x.font = '400 26px Inter, sans-serif'; x.fillText(k, M + 20, y); y += 38;
-    x.fillStyle = '#E8ECEF'; x.font = '400 24px "JetBrains Mono", monospace'; wrapLines(x, v, W - 2 * M - 40).forEach(l => { x.fillText(l, M + 20, y); y += 34; }); y += 22; };
-  row('Stamped by', p.creator);
-  row('Fingerprint (SHA-256)', fp.slice(0, 34) + ' ' + fp.slice(34));
-  // footer
-  x.fillStyle = '#7CE0B5'; x.fillRect(M + 20, H - 190, W - 2 * M - 40, 3);
-  x.fillStyle = '#E8ECEF'; x.font = '600 34px "Space Grotesk", sans-serif';
-  x.fillText('Verify it: ' + SITE + '/proof', M + 20, H - 135);
-  x.fillStyle = '#8A939D'; x.font = '400 24px Inter, sans-serif';
-  x.fillText('Sepolia test network · the file itself was never uploaded', M + 20, H - 95);
-  return new Promise(res => cv.toBlob(res, 'image/png'));
-}
-async function saveCertificate() {
-  if (!lastProof) return;
-  const blob = await drawCertificate(lastProof.fp, lastProof.p);
-  const file = new File([blob], 'proof-of-creation.png', {type: 'image/png'});
-  try {
-    if (navigator.canShare && navigator.canShare({files: [file]})) { await navigator.share({files: [file], title: 'Proof of Creation'}); return; }
-  } catch (e) { if (e && e.name === 'AbortError') return; }
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'proof-of-creation.png';
-  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-}
-
-// ---- my stamps: read Stamped events for a wallet ----
-async function stampsBy(addr) {
-  const iface = new ethers.Interface(ABI);
-  const topic0 = iface.getEvent('Stamped').topicHash;
-  const want = ethers.zeroPadValue(addr.toLowerCase(), 32).toLowerCase();
-  let items = [];
-  try {
-    let url = EXPLORER_API + '/addresses/' + CONTRACT + '/logs', guard = 0;
-    while (url && guard++ < 20) {
-      const r = await fetch(url); if (!r.ok) throw new Error('explorer');
-      const d = await r.json();
-      (d.items || []).forEach(l => {
-        const t = (l.topics || []).filter(Boolean);
-        if (t[0] && t[0].toLowerCase() === topic0 && t[2] && t[2].toLowerCase() === want) {
-          const ev = iface.parseLog({topics: t, data: l.data});
-          items.push({fp: ev.args[0], timestamp: ev.args[2], title: ev.args[3], tx: l.transaction_hash || l.tx_hash});
-        }
-      });
-      url = d.next_page_params ? EXPLORER_API + '/addresses/' + CONTRACT + '/logs?' + new URLSearchParams(d.next_page_params) : null;
-    }
-  } catch (e) {
-    // fallback: ask the network directly
-    const c = reader();
-    const evs = await c.queryFilter(c.filters.Stamped(null, addr), DEPLOY_BLOCK, 'latest');
-    items = evs.map(ev => ({fp: ev.args[0], timestamp: ev.args[2], title: ev.args[3], tx: ev.transactionHash}));
+  function download(blob, name){
+    const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=name;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),4000);
   }
-  return items.sort((a, b) => Number(b.timestamp) - Number(a.timestamp));
-}
-async function showGallery(addr, isMine) {
-  $('galKicker').textContent = isMine ? '// my stamps' : '// creator profile';
-  $('galIntro').innerHTML = (isMine ? 'Everything your wallet has stamped' : 'Works stamped by this creator') + ': <span class="mono">' + esc(addr) + '</span>';
-  $('galConnect').hidden = true;
-  $('galList').innerHTML = '<div class="scan" aria-hidden="true"></div>';
-  try {
-    const items = await stampsBy(addr);
-    const link = location.origin + location.pathname + '?creator=' + addr;
-    if (!items.length) { $('galList').innerHTML = '<p style="color:var(--muted)">No stamps yet. Stamp your first work in the "Stamp my work" tab.</p>'; return; }
-    let h = '<p style="margin:6px 0 4px"><b>' + items.length + '</b> work' + (items.length > 1 ? 's' : '') + ' stamped</p>';
-    items.forEach((it, i) => {
-      h += '<div class="work"><span class="n">' + String(items.length - i).padStart(2, '0') + '</span><div><b>' + esc(it.title || 'Untitled work') + '</b>';
-      h += '<span style="color:var(--muted);font-size:15px">' + esc(when(it.timestamp)) + '</span><br>';
-      h += '<a href="?check=' + esc(it.fp) + '" style="font-size:15px">View proof</a> · <a href="/xray?q=' + esc(it.tx) + '&net=sepolia" style="font-size:15px">X-ray the stamp</a></div></div>';
-    });
-    h += '<div class="row"><button class="ghost" type="button" id="copyProfile" data-link="' + esc(link) + '">Copy link to this creator profile</button></div>';
-    $('galList').innerHTML = h;
-  } catch (e) { $('galList').innerHTML = '<p class="err" style="color:var(--bad)">Couldn\'t load stamps right now. Try again in a minute.</p>'; }
-}
-$('galConnect').onclick = async () => {
-  if (!window.ethereum) { $('galIntro').textContent = 'No wallet found. Open this page on a computer with MetaMask, or inside the MetaMask app\'s browser.'; return; }
-  try {
-    const accts = await window.ethereum.request({method: 'eth_requestAccounts'});
-    if (accts && accts[0]) showGallery(ethers.getAddress(accts[0]), true);
-  } catch (e) { $('galIntro').textContent = 'Wallet connection cancelled.'; }
-};
+  $("dlOts").addEventListener("click", ()=> otsBytes && download(new Blob([otsBytes],{type:"application/octet-stream"}), file.name+".ots"));
+  $("dlCert").addEventListener("click", ()=> $("cv").toBlob(b=>download(b, safeName($("title").value||file.name)+"-certificate.png"),"image/png"));
 
-// ---- start ----
-if (!CONTRACT) {
-  $('notice').style.display = 'block';
-  $('notice').textContent = 'Almost ready: the Proof of Creation contract is being deployed to the test network. You can already make a fingerprint of any file.';
-} else if (!window.ethers) {
-  $('notice').style.display = 'block';
-  $('notice').textContent = 'A blockchain library failed to load. Refresh the page to try again.';
-}
-const params = new URL(location.href).searchParams;
-const creator = params.get('creator');
-if (creator && /^0x[0-9a-fA-F]{40}$/.test(creator) && CONTRACT && window.ethers) { setMode('mine'); showGallery(ethers.getAddress(creator), false); }
-const pre = params.get('check');
-if (pre && /^0x[0-9a-fA-F]{64}$/.test(pre)) {
-  setMode('check');
-  fingerprint = pre; $('fp').textContent = pre; $('fpBox').style.display = 'block';
-  $('dropTitle').textContent = 'Checking a shared proof';
-  ready();
-  if (CONTRACT && window.ethers) checkFp(pre);
-}
-ready();
+  function wrap(ctx, text, x, y, maxW, lh){
+    const words=text.split(" "); let line="";
+    for(const w of words){ const t=line?line+" "+w:w; if(ctx.measureText(t).width>maxW && line){ ctx.fillText(line,x,y); y+=lh; line=w; } else line=t; }
+    if(line){ ctx.fillText(line,x,y); y+=lh; } return y;
+  }
+  async function drawCert(){
+    try{ await document.fonts.ready; }catch(e){}
+    const c=$("cv"), ctx=c.getContext("2d"), W=c.width, H=c.height, P=96;
+    const mono="'JetBrains Mono', monospace", head="'Space Grotesk', sans-serif", body="Inter, sans-serif";
+    const g=ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,"#15211C"); g.addColorStop(1,"#0E1014");
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle="#7CE0B5"; ctx.lineWidth=3; ctx.strokeRect(44,44,W-88,H-88);
+    ctx.fillStyle="#7CE0B5"; ctx.font=`28px ${mono}`; ctx.fillText("// certificate of proof", P, 160);
+    ctx.fillStyle="#E8ECEF"; ctx.font=`600 66px ${head}`;
+    let y = wrap(ctx, $("title").value.trim() || file.name, P, 250, W-2*P, 76);
+    const creator=$("creator").value.trim();
+    if(creator){ ctx.fillStyle="#B5BDC6"; ctx.font=`34px ${body}`; ctx.fillText("by "+creator, P, y+6); y+=62; }
+    y+=34;
+    const label=(t)=>{ ctx.fillStyle="#8A939D"; ctx.font=`24px ${mono}`; ctx.fillText(t.toUpperCase(),P,y); y+=46; };
+    const field=(l,v)=>{ label(l); ctx.fillStyle="#E8ECEF"; ctx.font=`32px ${body}`; y=wrap(ctx,v,P,y,W-2*P,44)+28; };
+    field("Stamped", stampedAt.toLocaleString("en-GB",{day:"numeric",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit",timeZoneName:"short"}));
+    field("File", file.name);
+    const h=OTS.hex(fileHash); label("Fingerprint (SHA-256)");
+    ctx.fillStyle="#7CE0B5"; ctx.font=`30px ${mono}`; ctx.fillText(h.slice(0,32),P,y); y+=42; ctx.fillText(h.slice(32),P,y); y+=58;
+    field("Recorded on", "Bitcoin blockchain via OpenTimestamps");
+    ctx.fillStyle="#8A939D"; ctx.font=`24px ${body}`;
+    wrap(ctx,"This certificate is a summary. The proof is the .ots file: check it with the original, unchanged file at opentimestamps.org. Bitcoin confirmation completes a few hours after stamping.",P,H-240,W-2*P,34);
+    ctx.fillStyle="#7CE0B5"; ctx.font=`600 28px ${head}`; ctx.fillText("Proof of Creation · by Shana Campbell", P, H-96);
+  }
+
+  // check
+  let chkHash=null, chkOtsHash=null;
+  function runCheck(){
+    if(!chkHash || !chkOtsHash) return;
+    if(OTS.hex(chkHash)===OTS.hex(chkOtsHash)) say($("chkMsg"),"✓ Match. This proof belongs to this exact file.","ok");
+    else say($("chkMsg"),"✗ No match. This isn't the file that was stamped. It may have been edited, resized or re-saved.","err");
+  }
+  $("chkFile").addEventListener("change", async e=>{ const f=e.target.files[0]; if(!f) return; $("chkFileLbl").textContent=f.name; chkHash=await OTS.sha256(await f.arrayBuffer()); runCheck(); });
+  $("chkOts").addEventListener("change", async e=>{ const f=e.target.files[0]; if(!f) return; $("chkOtsLbl").textContent=f.name;
+    try{ chkOtsHash=OTS.readOtsFileHash(new Uint8Array(await f.arrayBuffer())); runCheck(); }
+    catch(err){ chkOtsHash=null; say($("chkMsg"),"That doesn't look like a valid proof file: "+err.message+".","err"); } });
+})();
 </script>
 </body>
 </html>
